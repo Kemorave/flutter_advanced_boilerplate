@@ -59,7 +59,7 @@ Future<void> main() async {
       // Set bloc observer and hydrated bloc storage.
       Bloc.observer = Observer();
       HydratedBloc.storage = await HydratedStorage.build(
-        storageDirectory: await getApplicationDocumentsDirectory(),
+        storageDirectory:HydratedStorageDirectory((await getApplicationDocumentsDirectory()).path),
       );
 
       return runApp(
