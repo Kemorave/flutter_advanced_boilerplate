@@ -22,16 +22,24 @@ class CustomImageView extends StatelessWidget {
     this.margin,
     this.border,
     this.image,
+    this.backColor,
     this.placeHolder = 'assets/images/image_not_found.png',
+    this.cacheHeight,
+    this.cacheWidth,
+    this.filterQuality = FilterQuality.low,
   });
 
   ///[imagePath] is required parameter for showing image
   String? imagePath;
 
+  int? cacheHeight;
+  int? cacheWidth;
+  FilterQuality filterQuality;
   final ImageProvider? image;
   double? height;
   double? width;
   Color? color;
+  Color? backColor;
   BoxFit? fit;
   final String placeHolder;
   Alignment? alignment;
@@ -74,11 +82,12 @@ class CustomImageView extends StatelessWidget {
 
   ///build the image with border and border radius style
   Widget _buildImageWithBorder() {
-    if (border != null) {
+    if (border != null || backColor != null) {
       return DecoratedBox(
         decoration: BoxDecoration(
           border: border,
           borderRadius: radius,
+          color: backColor,
         ),
         child: _buildImageView(),
       );
@@ -117,6 +126,9 @@ class CustomImageView extends StatelessWidget {
           return Image.file(
             File(imagePath!),
             height: height,
+            cacheHeight: cacheHeight,
+            cacheWidth: cacheWidth,
+            filterQuality: filterQuality,
             width: width,
             fit: fit ?? BoxFit.cover,
             color: color,
@@ -126,6 +138,9 @@ class CustomImageView extends StatelessWidget {
             height: height,
             width: width,
             fit: fit,
+            memCacheHeight: cacheHeight,
+            memCacheWidth: cacheWidth,
+            filterQuality: filterQuality,
             imageUrl: imagePath!,
             color: color,
             placeholder: (context, url) => SizedBox(
@@ -149,6 +164,9 @@ class CustomImageView extends StatelessWidget {
             imagePath!,
             height: height,
             width: width,
+            cacheHeight: cacheHeight,
+            cacheWidth: cacheWidth,
+            filterQuality: filterQuality,
             fit: fit ?? BoxFit.cover,
             color: color,
           );

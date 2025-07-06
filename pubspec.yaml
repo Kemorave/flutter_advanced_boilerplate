@@ -34,7 +34,7 @@ dependency_overrides: null
 # intl: 0.18.1
 dependencies:
   async_button_builder: ^3.0.0+1
-  auto_route: ^9.3.0+1
+  auto_route: ^10.1.0+1
   cached_network_image: ^3.4.1
   data_channel: 2.0.0+1
   device_preview: ^1.2.0
@@ -42,7 +42,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_animate: ^4.5.2
-  flutter_bloc: 9.0.0
+  flutter_bloc: ^9.1.1
   flutter_localizations:
     sdk: flutter
   flutter_native_splash: ^2.4.1
@@ -54,30 +54,30 @@ dependencies:
   get_it: ^8.0.3
   hydrated_bloc: ^10.0.0
   image_picker: ^1.1.2
-  infinite_scroll_pagination: ^4.1.0
+  infinite_scroll_pagination: ^5.1.0
   injectable: ^2.5.0
   json_annotation: ^4.9.0
   json_theme: ^7.0.0+3
   logger: ^2.5.0
   path_provider: ^2.1.5
-  permission_handler: ^11.3.1
+  permission_handler: ^12.0.1
   pretty_dio_logger: 1.4.0
   reactive_forms: ^17.0.1
-  sentry_dart_plugin: ^2.2.1
-  sentry_dio: ^8.12.0
-  sentry_flutter: ^8.12.0
+  sentry_dart_plugin: ^3.1.0
+  sentry_dio: ^9.3.0
+  sentry_flutter: ^9.3.0
   shimmer: 3.0.0
   slang: ^4.4.0
   statsfl: 2.3.0
   url_launcher: ^6.3.1
 
 dev_dependencies:
-  auto_route_generator: ^9.0.0
+  auto_route_generator: ^10.0.1
   build_runner: ^2.4.11
   flutter_gen_runner: ^5.8.0
   flutter_test:
     sdk: flutter
-  freezed: 2.5.2
+  freezed: ^2.5.8
   injectable_generator: ^2.6.2
   json_serializable: ^6.8.0
   mocktail: ^1.0.4

@@ -1,8 +1,16 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_advanced_boilerplate/features/app/models/alert_model.dart';
+import 'package:flutter_advanced_boilerplate/i18n/strings.g.dart';
+import 'package:flutter_advanced_boilerplate/utils/helpers/bar_helper.dart';
+import 'package:flutter_advanced_boilerplate/utils/helpers/permission_helper.dart';
+import 'package:flutter_advanced_boilerplate/utils/methods/file_type_extension.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:json_theme/json_theme.dart';
 
 Size getSize(BuildContext context) {
@@ -120,4 +128,75 @@ Future<ThemeData?> loadThemeData(String themePath) async {
   } catch (e) {
     return null;
   }
+}
+
+Future<List<XFile>> selectMedia(
+  BuildContext context,
+  ImageSource source, {
+  bool video = false,
+}) async {
+  final hasPermission = await checkPhotosPermission();
+  final picker = ImagePicker();
+  if (hasPermission) {
+    switch (source) {
+      case ImageSource.camera:
+        final file = video
+            ? await picker.pickVideo(
+                source: source,
+                maxDuration: 10.seconds,
+              )
+            : await picker.pickImage(source: source, imageQuality: 25);
+        if (file == null) {
+          return <XFile>[];
+        }
+        return [file];
+      case ImageSource.gallery:
+        final files = await picker.pickMultipleMedia(
+          imageQuality: 25,
+          limit: 20,
+        );
+        if (files.isEmpty) {
+          return [];
+        }
+        final tasks = <XFile>[];
+        for (final file in files) {
+          if (file.path.fileType == FileType.other && context.mounted) {
+            BarHelper.showAlert(
+              context,
+              alert: const AlertModel(
+                message: 'يسمح برفع الصور والفيديو و الصوت فقط',
+                type: AlertType.destructive,
+              ),
+            );
+            continue;
+          }
+          final sizeInBytes = await file.length();
+          final sizeInMb = sizeInBytes / (1024 * 1024);
+
+          if (sizeInMb > 50 && context.mounted) {
+            BarHelper.showAlert(
+              context,
+              alert: AlertModel(
+                message: context.t.core.file_picker.size_warning(maxSize: 50),
+                type: AlertType.destructive,
+              ),
+            );
+            continue;
+          }
+
+          tasks.add(file);
+        }
+
+        return tasks;
+    }
+  } else if (context.mounted) {
+    BarHelper.showAlert(
+      context,
+      alert: AlertModel(
+        message: context.t.core.file_picker.no_permission,
+        type: AlertType.destructive,
+      ),
+    );
+  }
+  return [];
 }
