@@ -1,19 +1,18 @@
 import 'dart:async';
 
-import 'package:data_channel/data_channel.dart';
 import 'package:dio/dio.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:flutter_advanced_boilerplate/features/app/models/alert_model.dart';
 import 'package:flutter_advanced_boilerplate/features/app/models/auth_model.dart';
 import 'package:flutter_advanced_boilerplate/features/app/models/user_model.dart';
-import 'package:injectable/injectable.dart';
 
-@lazySingleton
 class AuthRepository {
   AuthRepository(this._dioClient);
 
+  // ignore: unused_field
   final Dio _dioClient;
 
-  Future<DC<AlertModel, AuthModel>> login({
+  Future<Either<AlertModel, AuthModel>> login({
     required String username,
     required String password,
   }) async {
@@ -34,7 +33,7 @@ class AuthRepository {
 
       Timer(const Duration(seconds: 3), () {});
 
-      return DC.data(auth);
+      return right(auth);
     } else {
       final alert = AlertModel.alert(
         message:
@@ -42,17 +41,17 @@ class AuthRepository {
         type: AlertType.destructive,
       );
 
-      return DC.error(alert);
+      return left(alert);
     }
   }
 
-  Future<DC<AlertModel, void>> logout({required AuthModel auth}) async {
+  Future<Either<AlertModel, void>> logout({required AuthModel auth}) async {
     try {
       // TODO(fikretsengul): Implement custom logout operation with auth model.
 
-      return DC.data(null);
+      return right(null);
     } catch (e) {
-      return DC.error(AlertModel.quiet());
+      return left(AlertModel.quiet());
     }
   }
 }

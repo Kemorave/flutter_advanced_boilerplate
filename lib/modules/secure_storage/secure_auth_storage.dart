@@ -2,10 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter_advanced_boilerplate/features/app/models/auth_model.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:fresh_dio/fresh_dio.dart';
-import 'package:injectable/injectable.dart';
-
-@LazySingleton(as: TokenStorage)
+import 'package:fresh_dio/fresh_dio.dart'; 
+ 
 class SecureAuthStorage extends TokenStorage<AuthModel> {
   SecureAuthStorage(this._secureStorage);
 

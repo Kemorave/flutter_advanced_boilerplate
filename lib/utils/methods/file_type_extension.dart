@@ -1,11 +1,11 @@
-enum FileType {
-  image,
-  video,
-  audio,
-  other,
-}
+import 'dart:convert';
+import 'dart:io';
 
-extension FileTypeExtension on String {
+import 'package:path_provider/path_provider.dart';
+
+enum FileType { image, video, audio, compressed, other }
+
+class FileTypeExtensions {
   static final videoExtensions = [
     '.mp4',
     '.mov',
@@ -90,41 +90,21 @@ extension FileTypeExtension on String {
     '.cda',
   ];
 
-  bool get isVideoUrl {
-    final uri = Uri.tryParse(this);
-    if (uri == null) return false;
-    final path = uri.path.toLowerCase();
-    return videoExtensions.any(path.endsWith);
-  }
-
-  bool get isImageUrl {
-    final uri = Uri.tryParse(this);
-    if (uri == null) return false;
-    final path = uri.path.toLowerCase();
-    return imageExtensions.any(path.endsWith);
-  }
-
-  bool get isAudioUrl {
-    final uri = Uri.tryParse(this);
-    if (uri == null) return false;
-    final path = uri.path.toLowerCase();
-    return audioExtensions.any(path.endsWith);
-  }
-
-  FileType get fileType {
-    final uri = Uri.tryParse(this);
-    if (uri == null) return FileType.other;
-    final path = uri.path.toLowerCase();
-
-    if (videoExtensions.any(path.endsWith)) {
-      return FileType.video;
-    }
-    if (imageExtensions.any(path.endsWith)) {
-      return FileType.image;
-    }
-    if (audioExtensions.any(path.endsWith)) {
-      return FileType.audio;
-    }
-    return FileType.other;
-  }
+  static final compressedExtensions = [
+    '.zip',
+    '.rar',
+    '.7z',
+    '.tar',
+    '.gz',
+    '.bz2',
+    '.xz',
+    '.iso',
+    '.dmg',
+    '.pkg',
+    '.deb',
+    '.rpm',
+    '.exe',
+    '.msi',
+    '.bin',
+  ];
 }

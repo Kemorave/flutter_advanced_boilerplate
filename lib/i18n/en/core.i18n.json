@@ -40,7 +40,9 @@
   },
   "file_picker": {
     "size_warning": "File size cannot be more than $maxSize mb.",
-    "no_permission": "We have no permission to open your gallery."
+    "no_permission": "We have no permission to open your gallery.",
+    "unsupported_file": "This file is not supported.",
+    "open_settings": "Open settings"
   },
   "test": {
     "succeded": "Test successfull.",

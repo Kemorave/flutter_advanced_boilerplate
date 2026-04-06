@@ -1,8 +1,14 @@
+import 'package:flutter_advanced_boilerplate/features/app/blocs/app_cubit.dart';
 import 'package:flutter_advanced_boilerplate/features/app/models/env_model.dart';
+import 'package:flutter_advanced_boilerplate/features/auth/login/blocs/auth_cubit.dart';
 import 'package:flutter_advanced_boilerplate/modules/dependency_injection/di.dart';
+import 'package:flutter_advanced_boilerplate/utils/helpers/d_i_container.dart';
 import 'package:flutter_advanced_boilerplate/utils/helpers/logging_helper.dart';
 import 'package:flutter_advanced_boilerplate/utils/router.dart';
+import 'package:go_router/go_router.dart';
 
-final LoggingHelper logIt = getIt<LoggingHelper>();
-final EnvModel env = getIt<EnvModel>();
-final AppRouter appRouter = getIt<AppRouter>();
+LoggingHelper logIt = LoggingHelper();
+EnvModel get env => DIContainer.get<EnvModel>();
+GoRouter get appRouter => DIContainer.get<GoRouter>();
+AuthCubit get authCubit => DIContainer.get<AuthCubit>();
+AppCubit get appCubit => DIContainer.get<AppCubit>();

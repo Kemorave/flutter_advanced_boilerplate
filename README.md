@@ -138,6 +138,8 @@ $ fvm flutter pub run flutter_native_splash:create
 # A Dart Build Plugin that uploads debug symbols for Android, iOS/macOS and source maps for Web to Sentry via sentry-cli.
 # The flutter build apk, flutter build ios (or macos) or flutter build web is required before executing the sentry_dart_plugin plugin
 $ fvm dart run sentry_dart_plugin
+# To create a new feature files
+$ ./make_feature.sh profile
 ```
 
 ### Hide Generated Files

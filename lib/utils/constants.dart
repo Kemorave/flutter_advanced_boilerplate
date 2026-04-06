@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_advanced_boilerplate/features/auth/login/blocs/auth_cubit.dart';
 import 'package:flutter_advanced_boilerplate/features/informations/informations_screen.dart';
 import 'package:flutter_advanced_boilerplate/i18n/strings.g.dart';
-import 'package:flutter_advanced_boilerplate/modules/dependency_injection/di.dart';
+import 'package:flutter_advanced_boilerplate/utils/helpers/d_i_container.dart';
 
 final $constants = Constants();
 
@@ -135,7 +135,7 @@ class _Navigation {
   List<AppBar> appbars(BuildContext context) => [
         AppBar(
           leading: IconButton(
-            onPressed: () => getIt<AuthCubit>().logOut(),
+            onPressed: () => DIContainer.get<AuthCubit>().logOut(),
             icon: const Icon(Icons.logout),
           ),
           title: Text(
@@ -155,20 +155,20 @@ class _Navigation {
         InformationsScreen(),
       ];
 
-  List<NavigationDestination> bottomNavigationItems(BuildContext context) => [
-        NavigationDestination(
+  List<BottomNavigationBarItem> bottomNavigationItems(BuildContext context) => [
+        BottomNavigationBarItem(
           icon: const Icon(
-            Icons.star,
+            Icons.home,
             size: 24,
           ),
-          label: context.t.core.navigation.bottom.features,
+          label: "Home",
         ),
-        NavigationDestination(
+        BottomNavigationBarItem(
           icon: const Icon(
-            Icons.info,
+            Icons.person,
             size: 24,
           ),
-          label: context.t.core.navigation.bottom.informations,
+          label: "Profile",
         ),
       ];
 }

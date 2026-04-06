@@ -40,7 +40,9 @@
   },
   "file_picker": {
     "size_warning": "Dosya boyutu en fazla $maxSize mb olabilir.",
-    "no_permission": "Galerinizi açma iznimiz yok."
+    "no_permission": "Galerinizi açma iznimiz yok.",
+    "unsupported_file": "Bu dosya desteklenmiyor.",
+    "open_settings": "Ayarlar"
   },
   "test": {
     "succeded": "Test başarılı.",

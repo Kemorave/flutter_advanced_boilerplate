@@ -1,22 +1,101 @@
 targets:
   $default:
+    sources:
+      - lib/**
+      - swaggers/**
+      - swaggers2/**
+      - api/**
+      - swagger_examples/**
+      - $package$
+      - assets/**
+      - lib/utils/gen/**
+      - pubspec.yaml
     builders:
-      artemis:
+      json_serializable:
         options:
-          schema_mapping:
-            - schema: lib/modules/graphql/schema.graphql
-              queries_glob: lib/modules/graphql/queries/*.graphql
-              output: lib/modules/graphql/models/graphql_api.dart
-              naming_scheme: pathedWithFields
-          scalar_mapping:
-            - graphql_type: DateTime
-              custom_parser_import: "package:flutter_advanced_boilerplate/modules/graphql/scalars/datetime_scalar.dart"
-              dart_type: DateTime
-              use_custom_parser: true
-            - graphql_type: Upload
-              custom_parser_import: "package:flutter_advanced_boilerplate/modules/graphql/scalars/upload_scalar.dart"
-              dart_type:
-                name: MultipartFile
-                imports:
-                  - "package:http/http.dart"
-              use_custom_parser: true
+          # Options configure how source code is generated for every
+          # `@JsonSerializable`-annotated class in the package.
+          #
+          # The default value for each is listed.
+          #
+          # For usage information, reference the corresponding field in
+          # `JsonSerializableGenerator`.
+          any_map: true
+          checked: true
+          explicit_to_json: true
+          create_to_json: true
+      squadron_builder:worker_builder:
+        options:
+          with_finalizers: true
+          serialization_type: List
+      chopper_generator:
+        options:
+          header: "//Generated code"
+
+      swagger_dart_code_generator:
+        options:
+          input_folder: "api/"
+          output_folder: "lib/Networking/e_alula_connect_api_v1"
+          file_name: "e_alula_connect_api_v1.json"
+          custom_annotations:
+            - type_name: "SomeCustomAnnotations"
+              swagger_key: "some_custom_annotations"
+          with_base_url: true
+          with_converter: true
+          use_path_for_request_names: true
+          include_null_query_vars: true
+          use_default_null_for_lists: true
+          override_equals_and_hashcode: true
+          build_only_models: false
+          additional_headers:
+            - "Cache-Control"
+          overriden_models:
+            - file_name: "pet_service_json"
+              import_url: "../overriden_models.dart"
+              overriden_models:
+                - "Pet"
+                - "Order"
+          separate_models: false
+          enums_case_sensitive: true
+          cut_from_model_names: "ModelRenameV3"
+          nullable_models:
+            - "Pet"
+            - "Dog"
+          ignore_headers: false
+          use_required_attribute_for_headers: false
+          include_if_null: true
+          classes_with_nullabe_lists:
+            - "Pet"
+            - "Dog"
+            - "Cat"
+          exclude_paths:
+            - "/items/{id}"
+          response_override_value_map:
+            - url: "/v2/commons/availableColours"
+              method: get
+              overridden_value: "List<Map>"
+            - url: "/v2/commons/availableGenres"
+              method: get
+              overridden_value: "List<GenreV2Result>"
+            - url: "/v2/channels"
+              method: get
+              overridden_value: "List<Channel>"
+            - url: "/{country}/{lang}/events/segments/{segmentName}"
+              method: get
+              overridden_value: "Map"
+            - url: "/v1/titlePreferredInstance/{titleCrid}"
+              method: get
+              overridden_value: TitlePreferredInstance
+            - url: "/v2/detailscreen/{crid}"
+              method: get
+              overridden_value: "Map<String, dynamic>"
+          default_header_values_map:
+            - header_name: "X-Entitlements-Token"
+              default_value: "X-Entitlements-Token"
+            - header_name: "X-Cus"
+              default_value: "X-Cus"
+          default_values_map:
+            - type_name: String
+              default_value: ""
+            - type_name: Map<String, dynamic>
+              default_value: "{}"

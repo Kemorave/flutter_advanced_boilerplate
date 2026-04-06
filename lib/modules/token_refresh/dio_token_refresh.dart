@@ -1,8 +1,6 @@
 import 'package:flutter_advanced_boilerplate/features/app/models/auth_model.dart';
-import 'package:fresh_dio/fresh_dio.dart';
-import 'package:injectable/injectable.dart';
-
-@lazySingleton
+import 'package:fresh_dio/fresh_dio.dart'; 
+ 
 class DioTokenRefresh {
   DioTokenRefresh(this._secureStorage) {
     _fresh = Fresh<AuthModel>(

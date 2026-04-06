@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'dart:io';
+import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -25,8 +26,10 @@ class CustomImageView extends StatelessWidget {
     this.backColor,
     this.placeHolder = 'assets/images/image_not_found.png',
     this.cacheHeight,
-    this.cacheWidth,
+    this.cacheWidth = 300,
     this.filterQuality = FilterQuality.low,
+    this.reverseHorizontalOnRtl,
+    this.blendMode = BlendMode.srcIn,
   });
 
   ///[imagePath] is required parameter for showing image
@@ -47,36 +50,39 @@ class CustomImageView extends StatelessWidget {
   EdgeInsetsGeometry? margin;
   BorderRadius? radius;
   BoxBorder? border;
+  bool? reverseHorizontalOnRtl;
+  BlendMode blendMode;
 
   @override
   Widget build(BuildContext context) {
-    return alignment != null
-        ? Align(
-            alignment: alignment!,
-            child: _buildWidget(),
-          )
+    final image = alignment != null
+        ? Align(alignment: alignment!, child: _buildWidget())
         : _buildWidget();
+    if ((reverseHorizontalOnRtl??false) &&
+        Directionality.of(context) == TextDirection.rtl) {
+      return Transform.rotate(angle: 180 * pi / 180, child: image);
+    }
+    return image;
   }
 
   Widget _buildWidget() {
     return Padding(
       padding: margin ?? EdgeInsets.zero,
-      child: InkWell(
-        onTap: onTap,
-        child: _buildCircleImage(),
-      ),
+      child: InkWell(onTap: onTap, child: _buildCircleImage()),
     );
   }
 
   ///build the image with border radius
   Widget _buildCircleImage() {
+    final child = _buildImageWithBorder();
     if (radius != null) {
       return ClipRRect(
-        borderRadius: radius ?? BorderRadius.zero,
-        child: _buildImageWithBorder(),
+        borderRadius: radius!,
+        clipBehavior: Clip.hardEdge,
+        child: child,
       );
     } else {
-      return _buildImageWithBorder();
+      return child;
     }
   }
 
@@ -118,7 +124,71 @@ class CustomImageView extends StatelessWidget {
               width: width,
               fit: fit ?? BoxFit.contain,
               colorFilter: color != null
-                  ? ColorFilter.mode(color!, BlendMode.srcIn)
+                  ? ColorFilter.mode(color!, blendMode)
+                  : null,
+            ),
+          );
+        case ImageType.svgNetwork:
+          return SizedBox(
+            height: height,
+            width: width,
+            child: SvgPicture.network(
+              imagePath!,
+              height: height,
+              width: width,
+              errorBuilder: (context, error, stackTrace) {
+                return Image.asset(
+                  placeHolder,
+                  height: height,
+                  width: width,
+                  fit: fit ?? BoxFit.contain,
+                );
+              },
+              placeholderBuilder: (context) {
+                return SizedBox(
+                  height: 30,
+                  width: 30,
+                  child: LinearProgressIndicator(
+                    color: Colors.grey.shade200,
+                    backgroundColor: Colors.grey.shade100,
+                  ),
+                );
+              },
+              fit: fit ?? BoxFit.contain,
+              colorFilter: color != null
+                  ? ColorFilter.mode(color!, blendMode)
+                  : null,
+            ),
+          );
+        case ImageType.svgString:
+          return SizedBox(
+            height: height,
+            width: width,
+            child: SvgPicture.string(
+              imagePath!,
+              height: height,
+              width: width,
+              errorBuilder: (context, error, stackTrace) {
+                return Image.asset(
+                  placeHolder,
+                  height: height,
+                  width: width,
+                  fit: fit ?? BoxFit.contain,
+                );
+              },
+              placeholderBuilder: (context) {
+                return SizedBox(
+                  height: 30,
+                  width: 30,
+                  child: LinearProgressIndicator(
+                    color: Colors.grey.shade200,
+                    backgroundColor: Colors.grey.shade100,
+                  ),
+                );
+              },
+              fit: fit ?? BoxFit.contain,
+              colorFilter: color != null
+                  ? ColorFilter.mode(color!, blendMode)
                   : null,
             ),
           );
@@ -132,6 +202,7 @@ class CustomImageView extends StatelessWidget {
             width: width,
             fit: fit ?? BoxFit.cover,
             color: color,
+            colorBlendMode: blendMode,
           );
         case ImageType.network:
           return CachedNetworkImage(
@@ -143,6 +214,7 @@ class CustomImageView extends StatelessWidget {
             filterQuality: filterQuality,
             imageUrl: imagePath!,
             color: color,
+            colorBlendMode: blendMode,
             placeholder: (context, url) => SizedBox(
               height: 30,
               width: 30,
@@ -169,6 +241,7 @@ class CustomImageView extends StatelessWidget {
             filterQuality: filterQuality,
             fit: fit ?? BoxFit.cover,
             color: color,
+            colorBlendMode: blendMode,
           );
       }
     }
@@ -178,9 +251,15 @@ class CustomImageView extends StatelessWidget {
 
 extension ImageTypeExtension on String {
   ImageType get imageType {
-    if (startsWith('http') || startsWith('https')) {
+    //- A very wise man once said: "Kids don't play with SVG."
+
+    if (startsWith('<svg')) {
+      return ImageType.svgString;
+    }
+    if ((startsWith('http') || startsWith('https')) && !endsWith('.svg')) {
       return ImageType.network;
     } else if (endsWith('.svg')) {
+      if (startsWith('http')) return ImageType.svgNetwork;
       return ImageType.svg;
     } else if (startsWith('file://') || startsWith('/')) {
       return ImageType.file;
@@ -190,4 +269,4 @@ extension ImageTypeExtension on String {
   }
 }
 
-enum ImageType { svg, png, network, file, unknown }
+enum ImageType { svg, svgNetwork, png, network, file, unknown, svgString }

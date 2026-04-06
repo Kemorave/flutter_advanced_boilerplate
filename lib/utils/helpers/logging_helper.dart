@@ -1,8 +1,6 @@
-import 'package:flutter_advanced_boilerplate/utils/methods/aliases.dart';
-import 'package:injectable/injectable.dart';
+import 'package:flutter_advanced_boilerplate/utils/methods/aliases.dart'; 
 import 'package:logger/logger.dart';
-
-@singleton
+ 
 class LoggingHelper {
   final Logger logIt = Logger(
     printer: PrettyPrinter(

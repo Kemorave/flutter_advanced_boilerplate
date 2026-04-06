@@ -1,32 +1,29 @@
-import 'package:data_channel/data_channel.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_advanced_boilerplate/features/app/models/alert_model.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
-typedef RepositoryFunction<T> = Future<DC<AlertModel, T>> Function();
+typedef RepositoryFunction<T> = Future<Either<AlertModel, T>> Function();
 
-Future<DC<AlertModel, T>> dioExceptionHandler<T>(
+Future<Either<AlertModel, T>> dioExceptionHandler<T>(
   RepositoryFunction<T> repositoryFunction,
 ) async {
   try {
     return await repositoryFunction();
   } catch (e) {
-    AlertModel alert;
-
-    alert = e is UnauthenticatedException || e is ApiException || e is Exception
+    final alert =
+        e is UnauthenticatedException || e is ApiException || e is Exception
         ? AlertModel.exception(exception: e)
         : AlertModel.alert(message: e.toString(), type: AlertType.error);
 
     reportException(e);
 
-    return DC.error(alert);
+    return left(alert);
   }
 }
 
 void reportException(Object e) {
-  Sentry.captureException(
-    e,
-  );
+  Sentry.captureException(e);
 }
 
 class BadNetworkException extends DioException {

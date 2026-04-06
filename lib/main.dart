@@ -9,6 +9,8 @@ import 'package:flutter_advanced_boilerplate/i18n/strings.g.dart';
 import 'package:flutter_advanced_boilerplate/modules/bloc_observer/observer.dart';
 import 'package:flutter_advanced_boilerplate/modules/dependency_injection/di.dart';
 import 'package:flutter_advanced_boilerplate/modules/sentry/sentry_module.dart';
+import 'package:flutter_advanced_boilerplate/utils/helpers/json_helper.dart';
+import 'package:flutter_advanced_boilerplate/utils/helpers/permission_helper.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
@@ -19,20 +21,22 @@ Future<void> main() async {
   await runZonedGuarded<Future<void>>(
     () async {
       // Preserve splash screen until authentication complete.
-      final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+      final widgetsBinding = SentryWidgetsFlutterBinding.ensureInitialized();
 
+      await JsonHelper.init();
       FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
       Animate.restartOnHotReload = kDebugMode;
       // Use device locale.
-      //LocaleSettings.useDeviceLocale();
+      // if(LocaleSettings.useDeviceLocale)
+      // await LocaleSettings.useDeviceLocale();
 
-      await LocaleSettings.setLocale(AppLocale.ar);
+      //
+      //
+      //  await LocaleSettings.setLocale(AppLocale.ar);
       
 
-      // Configures dependency injection to init modules and singletons.
-      await configureDependencyInjection();
-
+     
 
       if (Platform.isAndroid || Platform.isIOS) {
         // Sets up allowed device orientations and other settings for the app.
@@ -53,8 +57,6 @@ Future<void> main() async {
       // This setting smoothes transition color for LinearGradient.
       //Paint.enableDithering = true;
 
-      // Inits sentry for error tracking.
-      await initializeSentry();
 
       // Set bloc observer and hydrated bloc storage.
       Bloc.observer = Observer();
@@ -62,7 +64,15 @@ Future<void> main() async {
         storageDirectory:HydratedStorageDirectory((await getApplicationDocumentsDirectory()).path),
       );
 
-      return runApp(
+      await PermissionsHelper.instance.checkAllPermissions();
+
+      // Configures dependency injection to init modules and singletons.
+      await injectContainer();
+
+      // Inits sentry for error tracking.
+      await initializeSentry();
+
+        runApp(
         // Sentrie's performance tracing for AssetBundles.
         DefaultAssetBundle(
           bundle: SentryAssetBundle(),
@@ -71,9 +81,9 @@ Future<void> main() async {
           ),
         ),
       );
+      FlutterNativeSplash.remove();
     },
-    (exception, stackTrace) async {
-      print(exception);
+    (exception, stackTrace) async { 
       await Sentry.captureException(
         exception,
         stackTrace: stackTrace,
@@ -81,3 +91,7 @@ Future<void> main() async {
     },
   );
 }
+
+
+
+ 

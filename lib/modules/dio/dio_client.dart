@@ -6,8 +6,7 @@ import 'package:flutter_advanced_boilerplate/modules/dio/interceptors/api_error_
 import 'package:flutter_advanced_boilerplate/modules/dio/interceptors/bad_network_error_interceptor.dart';
 import 'package:flutter_advanced_boilerplate/modules/dio/interceptors/internal_server_error_interceptor.dart';
 import 'package:flutter_advanced_boilerplate/modules/dio/interceptors/unathenticated_interceptor.dart';
-import 'package:flutter_advanced_boilerplate/modules/token_refresh/dio_token_refresh.dart';
-import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:flutter_advanced_boilerplate/modules/token_refresh/dio_token_refresh.dart'; 
 import 'package:sentry_dio/sentry_dio.dart'; 
 
 Dio initDioClient(
@@ -31,13 +30,13 @@ Dio initDioClient(
   dio.addSentry();
 
   if (env.debugApiClient) {
-    dio.interceptors.add(
-      PrettyDioLogger(
-        requestHeader: true,
-        requestBody: true,
-        responseHeader: true,
-      ),
-    );
+    // dio.interceptors.add(
+    //   PrettyDioLogger(
+    //     requestHeader: true,
+    //     requestBody: true,
+    //     responseHeader: true,
+    //   ),
+    // );
   }
 
   return dio;

@@ -51,7 +51,7 @@ class _IntroWidgetState extends State<IntroWidget> {
               child: Column(
                 children: [
                   CustomImageView(
-                    image:  Assets.images.logo.provider(),
+                    imagePath: Assets.images.handwave.path,
                     height: 60,
                     fit: BoxFit.contain,
                   ).animate().blur(

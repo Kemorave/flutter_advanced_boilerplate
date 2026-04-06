@@ -1,15 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:injectable/injectable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart'; 
 
 part 'env_model.freezed.dart';
 part 'env_model.g.dart';
 
-@freezed
-@singleton
-@preResolve
-class EnvModel with _$EnvModel {
+@freezed 
+abstract class EnvModel with _$EnvModel {
   factory EnvModel({
     required String env,
     required bool debug,
@@ -23,8 +20,7 @@ class EnvModel with _$EnvModel {
   EnvModel._();
 
   factory EnvModel.fromJson(Map<String, dynamic> json) => _$EnvModelFromJson(json);
-
-  @factoryMethod
+ 
   static Future<EnvModel> create() async {
     const env = String.fromEnvironment('APP_ENV', defaultValue: 'dev');
 

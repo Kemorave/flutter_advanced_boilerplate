@@ -1,15 +1,17 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_boilerplate/features/app/blocs/app_cubit.dart';
 import 'package:flutter_advanced_boilerplate/features/auth/login/blocs/auth_cubit.dart';
+import 'package:flutter_advanced_boilerplate/features/auth/login/presentation/login_screen.dart';
 import 'package:flutter_advanced_boilerplate/modules/dependency_injection/di.dart';
-import 'package:flutter_advanced_boilerplate/utils/router.gr.dart';
+import 'package:flutter_advanced_boilerplate/utils/constants.dart';
+import 'package:flutter_advanced_boilerplate/utils/helpers/d_i_container.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:go_router/go_router.dart';
 
-@RoutePage()
 class AppWrapper extends StatefulWidget {
-  const AppWrapper({super.key});
+  const AppWrapper({super.key, required this.navigationShell});
+  final StatefulNavigationShell navigationShell;
 
   @override
   State<AppWrapper> createState() => _AppWrapperState();
@@ -32,25 +34,14 @@ class _AppWrapperState extends State<AppWrapper> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => getIt<AuthCubit>(),
-      child: BlocListener<AuthCubit, AuthState>(
-        listener: (context, state) {
-          // Remove splash screen after initialization.
-          FlutterNativeSplash.remove();
-
-          state.whenOrNull(
-            authenticated: (_) {
-              context.router.replaceAll([const AppNavigator()]);
-            },
-            unauthenticated: () {
-              context.router.replaceAll([LoginRoute()]);
-            },
-          );
-        },
-        child: RepaintBoundary(
-          key: _key,
-          child: const AutoRouter(),
+    return Scaffold(
+      body: RepaintBoundary(key: _key, child: widget.navigationShell),
+      bottomNavigationBar: BottomNavigationBar(
+        items: $constants.navigation.bottomNavigationItems(context),
+        currentIndex: widget.navigationShell.currentIndex,
+        onTap: (index) => widget.navigationShell.goBranch(
+          index,
+          initialLocation: index == widget.navigationShell.currentIndex,
         ),
       ),
     );
