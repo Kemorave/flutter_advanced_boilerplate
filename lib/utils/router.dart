@@ -5,6 +5,7 @@ import 'package:flutter_advanced_boilerplate/features/auth/login/presentation/lo
 import 'package:flutter_advanced_boilerplate/features/home/presentation/home_screen.dart';
 import 'package:flutter_advanced_boilerplate/features/informations/informations_screen.dart';
 import 'package:flutter_advanced_boilerplate/features/profile/presentation/profile_screen.dart';
+import 'package:flutter_advanced_boilerplate/utils/helpers/string_helper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -138,35 +139,37 @@ void showSnackbar({
           Row(
             children: [
               if (icon != null) ...[icon, 10.horizontalSpace],
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (title != null) ...[
-                    Flexible(
-                      child: Text(
-                        title,
-                        style: TextStyle(
-                          color: titleColor,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (title != null) ...[
+                      Flexible(
+                        child: Text(
+                            StringHelper.takeUpToLength(title, 100)??'',
+                          style: TextStyle(
+                            color: titleColor,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
-                    ),
-                    10.verticalSpace,
+                      10.verticalSpace,
+                    ],
+                    if (message != null)
+                      Flexible(
+                        child: Text(
+                           StringHelper.takeUpToLength(message, 200)??'',
+                          style: TextStyle(
+                            color: messageColor,
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
                   ],
-                  if (message != null)
-                    Flexible(
-                      child: Text(
-                        message,
-                        style: TextStyle(
-                          color: messageColor,
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                ],
+                ),
               ),
             ],
           ),
