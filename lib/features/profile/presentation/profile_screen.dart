@@ -22,6 +22,7 @@ class _ProfileScreenContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<ProfileCubit>();
     return const Scaffold(
       body: Center(child: Text('Profile Screen')),
     );

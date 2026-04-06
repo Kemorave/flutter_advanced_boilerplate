@@ -44,8 +44,7 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
                           child: Text('Logout'),
                         ),
                         FilledButton(
-                          onPressed: () =>
-                              appRouter.go( homeRoute + informationRoute),
+                          onPressed: () => appRouter.go(informationRoute),
                           child: Text('Go to /home/information'),
                         ),
                       ],
@@ -74,7 +73,7 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
                       },
                     ),
                     Divider(),
-                    
+
                     ElevatedButton(
                       onPressed: () => showSuccessSnackbar(
                         message: context.t.core.test.succeded,
@@ -98,32 +97,53 @@ class _HomeScreenContentState extends State<_HomeScreenContent> {
                       ),
                       child: Text('Warning'),
                     ),
-                    Divider (),
-                    ElevatedButton(child:  Text('Photo permission (${PermissionsHelper.instance.photosPermissionState.name})'),onPressed: () async{
-                    await  PermissionsHelper.instance.requestPhotos();
-                    setState(() {
-                    });
-                    },),
-                    ElevatedButton(child:  Text('Camera permission (${PermissionsHelper.instance.cameraPermissionState.name})'),onPressed: () async{
-                    await  PermissionsHelper.instance.requestCamera();
-                    setState(() {
-                    });
-                    },),
-                    ElevatedButton(child:  Text('Microphone permission (${PermissionsHelper.instance.microphonePermissionState.name})', textAlign:  TextAlign.center,),onPressed: () async{
-                    await  PermissionsHelper.instance.requestMicrophone();
-                    setState(() {
-                    });
-                    },),
-                    ElevatedButton(child:  Text('Storage permission (${PermissionsHelper.instance.storagePermissionState.name})'),onPressed: () async{
-                    await  PermissionsHelper.instance.requestStorage();
-                    setState(() {
-                    });
-                    },),
-                    ElevatedButton(child:  Text('Location permission (${PermissionsHelper.instance.locationPermissionState.name})'),onPressed: () async{
-                    await  PermissionsHelper.instance.requestLocation();
-                    setState(() {
-                    });
-                    },),
+                    Divider(),
+                    ElevatedButton(
+                      child: Text(
+                        'Photo permission (${PermissionsHelper.instance.photosPermissionState.name})',
+                      ),
+                      onPressed: () async {
+                        await PermissionsHelper.instance.requestPhotos();
+                        setState(() {});
+                      },
+                    ),
+                    ElevatedButton(
+                      child: Text(
+                        'Camera permission (${PermissionsHelper.instance.cameraPermissionState.name})',
+                      ),
+                      onPressed: () async {
+                        await PermissionsHelper.instance.requestCamera();
+                        setState(() {});
+                      },
+                    ),
+                    ElevatedButton(
+                      child: Text(
+                        'Microphone permission (${PermissionsHelper.instance.microphonePermissionState.name})',
+                        textAlign: TextAlign.center,
+                      ),
+                      onPressed: () async {
+                        await PermissionsHelper.instance.requestMicrophone();
+                        setState(() {});
+                      },
+                    ),
+                    ElevatedButton(
+                      child: Text(
+                        'Storage permission (${PermissionsHelper.instance.storagePermissionState.name})',
+                      ),
+                      onPressed: () async {
+                        await PermissionsHelper.instance.requestStorage();
+                        setState(() {});
+                      },
+                    ),
+                    ElevatedButton(
+                      child: Text(
+                        'Location permission (${PermissionsHelper.instance.locationPermissionState.name})',
+                      ),
+                      onPressed: () async {
+                        await PermissionsHelper.instance.requestLocation();
+                        setState(() {});
+                      },
+                    ),
                   ]
                   .map(
                     (e) => Center(

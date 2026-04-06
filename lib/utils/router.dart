@@ -13,13 +13,12 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 
 const String homeRoute = '/home';
 const String profileRoute = '/profile';
-const String loginRoute = '/login';
-const String informationRoute = '/information';
+const String loginRoute = '/';
+const String informationRoute = '$homeRoute/information';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 final GlobalKey<StatefulNavigationShellState> rootShellKey =
     GlobalKey<StatefulNavigationShellState>();
-
 final rootScaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
 GoRouter initGoRouter() => GoRouter(
@@ -45,12 +44,7 @@ GoRouter initGoRouter() => GoRouter(
     if (loggingIn) {
       return homeRoute;
     }
-    if (state.matchedLocation == '/') {
-      if (loggedIn) {
-        return homeRoute;
-      }
-      return loginRoute;
-    }
+     
     // no need to redirect at all
     return null;
   },
@@ -69,7 +63,7 @@ StatefulShellRoute _buildHomeShell() => StatefulShellRoute.indexedStack(
           builder: (context, state) => const HomeScreen(),
           routes: [
             GoRoute(
-              path: informationRoute,
+              path: informationRoute.split('/').last,
               builder: (context, state) => const InformationsScreen(),
             ),
           ],
