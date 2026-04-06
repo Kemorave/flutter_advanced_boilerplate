@@ -3,15 +3,17 @@ import 'package:flutter_advanced_boilerplate/features/app/app_wrapper.dart';
 import 'package:flutter_advanced_boilerplate/features/auth/login/blocs/auth_cubit.dart';
 import 'package:flutter_advanced_boilerplate/features/auth/login/presentation/login_screen.dart';
 import 'package:flutter_advanced_boilerplate/features/home/presentation/home_screen.dart';
-import 'package:flutter_advanced_boilerplate/features/profile/presentation/profile_screen.dart'; 
+import 'package:flutter_advanced_boilerplate/features/informations/informations_screen.dart';
+import 'package:flutter_advanced_boilerplate/features/profile/presentation/profile_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
- 
+
 const String homeRoute = '/home';
 const String profileRoute = '/profile';
 const String loginRoute = '/login';
+const String informationRoute = '/information';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 final GlobalKey<StatefulNavigationShellState> rootShellKey =
@@ -24,12 +26,10 @@ GoRouter initGoRouter() => GoRouter(
   observers: [SentryNavigatorObserver()],
   initialLocation: loginRoute,
   routes: [
-    
     GoRoute(path: loginRoute, builder: (context, state) => const LoginScreen()),
     _buildHomeShell(),
   ],
   redirect: (context, state) async {
-     
     // Using `of` method creates a dependency of StreamAuthScope. It will
     // cause go_router to reparse current route if StreamAuth has new sign-in
     // information.
@@ -44,7 +44,12 @@ GoRouter initGoRouter() => GoRouter(
     if (loggingIn) {
       return homeRoute;
     }
-
+    if (state.matchedLocation == '/') {
+      if (loggedIn) {
+        return homeRoute;
+      }
+      return loginRoute;
+    }
     // no need to redirect at all
     return null;
   },
@@ -61,6 +66,12 @@ StatefulShellRoute _buildHomeShell() => StatefulShellRoute.indexedStack(
         GoRoute(
           path: homeRoute,
           builder: (context, state) => const HomeScreen(),
+          routes: [
+            GoRoute(
+              path: informationRoute,
+              builder: (context, state) => const InformationsScreen(),
+            ),
+          ],
         ),
       ],
     ),
@@ -128,6 +139,8 @@ void showSnackbar({
             children: [
               if (icon != null) ...[icon, 10.horizontalSpace],
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   if (title != null) ...[
                     Flexible(

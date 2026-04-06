@@ -9,45 +9,52 @@ class InformationsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Theme.of(context).colorScheme.background,
-      child: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        physics: const BouncingScrollPhysics(),
-        children: [
-          LinkCard(
-            title: context.t.informations.github_repository_title,
-            icon: Icons.code,
-            url: Uri.parse(
-              'https://github.com/fikretsengul/flutter_advanced_boilerplate',
-            ),
-          ),
-          TextDivider(text: context.t.informations.author_divider_title),
-          GridView.count(
-            physics: const NeverScrollableScrollPhysics(),
-            crossAxisCount: 2,
-            childAspectRatio: 2 / 1.15,
-            crossAxisSpacing: 8,
-            mainAxisSpacing: 8,
-            shrinkWrap: true,
-            padding: EdgeInsets.zero,
+    return Scaffold(
+      appBar:  AppBar(
+        title: Text(context.t.informations.author_divider_title),
+      ),
+      body: SafeArea(
+        child: Material(
+          color: Theme.of(context).colorScheme.background,
+          child: ListView(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            physics: const BouncingScrollPhysics(),
             children: [
-              GridItem(
-                title: context.t.informations.donate_card_title,
-                icon: Icons.coffee,
+              LinkCard(
+                title: context.t.informations.github_repository_title,
+                icon: Icons.code,
                 url: Uri.parse(
-                  'https://www.buymeacoffee.com/iamfikretB',
+                  'https://github.com/fikretsengul/flutter_advanced_boilerplate',
                 ),
               ),
-              GridItem(
-                title: context.t.informations.website_card_title,
-                icon: Icons.web,
-                url: Uri.parse('https://fikretsengul.com'),
+              TextDivider(text: context.t.informations.author_divider_title),
+              GridView.count(
+                physics: const NeverScrollableScrollPhysics(),
+                crossAxisCount: 2,
+                childAspectRatio: 2 / 1.15,
+                crossAxisSpacing: 8,
+                mainAxisSpacing: 8,
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
+                children: [
+                  GridItem(
+                    title: context.t.informations.donate_card_title,
+                    icon: Icons.coffee,
+                    url: Uri.parse(
+                      'https://www.buymeacoffee.com/iamfikretB',
+                    ),
+                  ),
+                  GridItem(
+                    title: context.t.informations.website_card_title,
+                    icon: Icons.web,
+                    url: Uri.parse('https://fikretsengul.com'),
+                  ),
+                ],
               ),
+              const SizedBox(height: 36),
             ],
           ),
-          const SizedBox(height: 36),
-        ],
+        ),
       ),
     );
   }
