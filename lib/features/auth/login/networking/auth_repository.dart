@@ -44,10 +44,12 @@ class AuthRepository {
           );
         }
       },
-      (e, s) => AlertModel.alert(
+      onError: (e, s) => AlertModel.alert(
         message:
             'ID or PW is wrong. Please enter test for demo to both fields.',
         type: AlertType.destructive,
+        exception: e,
+        stackTrace: s,
       ),
     );
   }

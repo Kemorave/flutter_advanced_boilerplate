@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_advanced_boilerplate/features/app/models/auth_model.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -68,11 +70,11 @@ class AuthTokenInterceptor extends Interceptor {
   Future<AuthModel?> getToken() async => _getToken();
 
   String _encodeAuthModel(AuthModel token) {
-    return token.toJson().toString();
+    return jsonEncode(token.toJson()) ;
   }
 
   AuthModel _decodeAuthModel(String json) {
     // Simple parsing - adjust based on your AuthModel structure
-    return AuthModel.fromJson(Map<String, dynamic>.from({}));
+    return AuthModel.fromJson(jsonDecode(json) as Map<String, dynamic>);
   }
 }

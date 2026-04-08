@@ -1,7 +1,6 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
-import 'package:flutter_advanced_boilerplate/modules/dio/dio_exception_handler.dart';
+import 'package:dio/dio.dart'; 
 import 'package:flutter_advanced_boilerplate/utils/exceptions/api_dio_exception.dart';
 import 'package:fpdart/fpdart.dart';
 

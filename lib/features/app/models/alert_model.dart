@@ -1,6 +1,6 @@
 import 'package:flutter_advanced_boilerplate/i18n/strings.g.dart';
-import 'package:flutter_advanced_boilerplate/modules/dio/dio_exception_handler.dart';
 import 'package:flutter_advanced_boilerplate/modules/error_report/exceptions_util.dart';
+import 'package:flutter_advanced_boilerplate/utils/exceptions/custom_exception.dart';
 import 'package:flutter_advanced_boilerplate/utils/methods/aliases.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -12,23 +12,25 @@ enum AlertType {
   error,
   notification,
   exception,
-  quiet
+  quiet,
 }
 
 @freezed
-abstract class  AlertModel with _$AlertModel {
+abstract class AlertModel with _$AlertModel {
   const factory AlertModel({
     required String message,
     required AlertType type,
-     dynamic exception,
-     StackTrace? stackTrace,
+    dynamic exception,
+    StackTrace? stackTrace,
     @Default(false) bool translatable,
     int? code,
   }) = _AlertModel;
 
   factory AlertModel.alert({
-    required String message,
     required AlertType type,
+    String? message,
+    dynamic exception,
+    StackTrace? stackTrace,
     bool translatable = false,
     int? code,
   }) {
@@ -37,23 +39,27 @@ abstract class  AlertModel with _$AlertModel {
     }
 
     return AlertModel(
-      message: message,
+      message:
+          message ??
+          (exception as CustomException?)?.message ??
+          t.core.errors.others.an_unknown_error,
       type: type,
       translatable: translatable,
       code: code,
+      exception: exception,
+      stackTrace: stackTrace,
     );
   }
 
   factory AlertModel.exception({
     required dynamic exception,
     required StackTrace? stackTrace,
-  }) { 
-
-   final message = getExceptionMessage(exception);
+  }) {
+    final message = getExceptionMessage(exception);
 
     return AlertModel(
-      message: message?? t.core.errors.others.an_unknown_error,
-      type: AlertType.exception, 
+      message: message ?? t.core.errors.others.an_unknown_error,
+      type: AlertType.exception,
       exception: exception,
       stackTrace: stackTrace,
     );
@@ -63,9 +69,8 @@ abstract class  AlertModel with _$AlertModel {
       AlertModel.alert(message: '', type: AlertType.quiet);
 
   factory AlertModel.quiet() {
-    return const AlertModel(
-      message: '',
-      type: AlertType.quiet,
-    );
+    return const AlertModel(message: '', type: AlertType.quiet);
   }
+  @override
+  String toString() => message;
 }

@@ -34,26 +34,38 @@ class App extends StatelessWidget {
               BlocProvider(create: (context) => getIt<AppCubit>()),
               BlocProvider(create: (context) => getIt<AuthCubit>()),
             ],
-            child: MaterialApp.router(
-              scaffoldMessengerKey: rootScaffoldMessengerKey,
-              theme: ThemeBuilderHelper.buildTheme(
-                brightness: Brightness.light,
+            child: BlocListener<AuthCubit, AuthState>(
+              listener: (context, state) {
+                state.whenOrNull(
+                  authenticated: (_) {
+                    appRouter.refresh();
+                  },
+                  unauthenticated: () {
+                    appRouter.refresh();
+                  },
+                );
+              },
+              child: MaterialApp.router(
+                scaffoldMessengerKey: rootScaffoldMessengerKey,
+                theme: ThemeBuilderHelper.buildTheme(
+                  brightness: Brightness.light,
+                ),
+                title: $constants.appTitle,
+                debugShowCheckedModeBanner: env.debugShowCheckedModeBanner,
+                debugShowMaterialGrid: env.debugShowMaterialGrid,
+
+                /// AutoRouter configuration.
+                routerConfig: appRouter,
+
+                /// EasyLocalization configuration.
+                locale: TranslationProvider.of(context).flutterLocale,
+                supportedLocales: AppLocaleUtils.supportedLocales,
+                localizationsDelegates: const [
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
               ),
-              title: $constants.appTitle,
-              debugShowCheckedModeBanner: env.debugShowCheckedModeBanner,
-              debugShowMaterialGrid: env.debugShowMaterialGrid,
-
-              /// AutoRouter configuration.
-              routerConfig: appRouter,
-
-              /// EasyLocalization configuration.
-              locale: TranslationProvider.of(context).flutterLocale,
-              supportedLocales: AppLocaleUtils.supportedLocales,
-              localizationsDelegates: const [
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
             ),
           ),
         );

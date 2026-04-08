@@ -92,9 +92,10 @@ Future<CustomEither<T>> runSafe<T>(
 }
 
 Future<CustomEither<T>> runAndReport<T>(
-  Future<T> Function() future, [
+  Future<T> Function() future, {
   AlertModel Function(Object, StackTrace)? onError,
-]) async {
+  bool showSnackbar = false,
+}) async {
   final result = await runSafe(future, onError);
   await result.match((a) {
     if (a.type == AlertType.quiet) return Future<void>.value();
@@ -104,32 +105,36 @@ Future<CustomEither<T>> runAndReport<T>(
   return result;
 }
 
-CustomEither<T> runSafeSync<T>(T Function() function) {
+CustomEither<T> runSafeSync<T>(
+  T Function() function, [
+  AlertModel Function(Object, StackTrace)? onError,
+]) {
   return Either.tryCatch(
     () => function(),
-    (e, s) => AlertModel.exception(exception: e, stackTrace: s),
+    onError ?? (e, s) => AlertModel.exception(exception: e, stackTrace: s),
   );
 }
 
 CustomEither<T> runAndReportSync<T>(
   T Function() function, {
+  AlertModel Function(Object, StackTrace)? onError,
   bool showSnackbar = false,
 }) {
-  final result = runSafeSync(function)
+  final result = runSafeSync(function, onError)
     ..match((a) {
-      if (a.type == AlertType.quiet) return; 
+      if (a.type == AlertType.quiet) return;
       errorReportService.reportException(a.exception, a.stackTrace);
       if (showSnackbar) {
         switch (a.type) {
           case AlertType.destructive:
             showWarningSnackbar(message: a.message);
-         case AlertType.constructive:
+          case AlertType.constructive:
             showSuccessSnackbar(message: a.message);
-            case AlertType.notification:
+          case AlertType.notification:
             showInfoSnackbar(message: a.message);
-            case AlertType.error:
+          case AlertType.error:
             showErrorSnackbar(message: a.message);
-            case AlertType.exception:
+          case AlertType.exception:
             showErrorSnackbar(message: a.message);
           default:
         }

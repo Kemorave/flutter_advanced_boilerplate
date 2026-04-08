@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart'; 
 import 'package:flutter_advanced_boilerplate/i18n/strings.g.dart';
-import 'package:flutter_advanced_boilerplate/utils/exceptions/api_dio_exception.dart'; 
+import 'package:flutter_advanced_boilerplate/utils/exceptions/api_dio_exception.dart';
+import 'package:flutter_advanced_boilerplate/utils/exceptions/custom_exception.dart'; 
 
 String? getExceptionMessage(dynamic exception)  {
   if (exception == null) {
@@ -10,6 +11,9 @@ String? getExceptionMessage(dynamic exception)  {
 
   if (exception is DioException) {
     return _getDioExceptionMessage(exception);
+  }
+  if (exception is CustomException) {
+    return exception.message;
   }
 
   return exception?.toString();

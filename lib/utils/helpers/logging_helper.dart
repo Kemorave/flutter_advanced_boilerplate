@@ -1,10 +1,11 @@
-import 'package:flutter_advanced_boilerplate/utils/methods/aliases.dart'; 
+import 'package:flutter_advanced_boilerplate/utils/methods/aliases.dart';
 import 'package:logger/logger.dart';
- 
+
 class LoggingHelper {
   final Logger logIt = Logger(
     printer: PrettyPrinter(
       methodCount: 0,
+      colors: false, // Disable ANSI colors to prevent escape codes in output
     ),
   );
 

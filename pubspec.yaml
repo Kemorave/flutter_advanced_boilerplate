@@ -58,8 +58,8 @@ dependencies:
   sentry_dart_plugin: ^3.1.0
   sentry_dio: ^9.3.0
   sentry_flutter: ^9.3.0
-  slang: ^4.4.0
-  slang_flutter: ^4.14.0
+  slang: ^4.4.0 
+  slang_flutter: ^4.4.0
   statsfl: 2.3.0
   url_launcher: ^6.3.1
   yet_another_json_isolate: ^2.1.0
@@ -74,7 +74,6 @@ dev_dependencies:
   mocktail: ^1.0.4
   mocktail_image_network: ^1.2.0
   slang_build_runner: ^4.4.0
-  slang_flutter: ^4.4.0
 
 flutter_gen:
   output: lib/utils/gen/ # Optional (default: lib/gen/)

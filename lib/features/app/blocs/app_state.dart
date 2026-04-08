@@ -6,6 +6,7 @@ abstract class AppState with _$AppState {
     required int pageIndex,
     required bool introViewed,
     required String themePath,
+    String? locale,
   }) = _AppState;
 
   factory AppState.initial() => _AppState(

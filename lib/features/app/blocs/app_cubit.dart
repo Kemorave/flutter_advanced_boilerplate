@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_boilerplate/i18n/strings.g.dart';
 // import 'package:flutter_advanced_boilerplate/assets.dart';
@@ -16,10 +18,16 @@ class AppCubit extends HydratedCubit<AppState> {
   AppState? fromJson(Map<String, dynamic> json) {
     final introViewed = json['introViewed'] as bool? ?? false;
     final themePath = json['themePath'] as String? ?? '';
+    final localeCode = json['locale'] as String? ?? '';
+    final locale = AppLocale.values.where((e) => e.languageCode == localeCode).firstOrNull ;
+    if(locale!=null) {
+      LocaleSettings.instance.setLocaleRaw(locale.languageCode);
+    }
     return AppState(
       pageIndex: 0,
       introViewed: introViewed,
       themePath: themePath,
+      locale: localeCode,
     );
   }
 
@@ -28,6 +36,7 @@ class AppCubit extends HydratedCubit<AppState> {
     return <String, dynamic>{
       'themePath': state.themePath,
       'introViewed': state.introViewed,
+      'locale': state.locale,
     };
   }
 
@@ -50,6 +59,7 @@ class AppCubit extends HydratedCubit<AppState> {
     return LocaleSettings.instance.supportedLocales;
   }
   void setCurrentLanguage(AppLocale locale) {
-    LocaleSettings.instance.setLocale(locale);
+  LocaleSettings.instance.setLocale(locale);
+    emit(state.copyWith(locale: locale.languageCode));
   }
 }
