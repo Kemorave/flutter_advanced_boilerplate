@@ -1,5 +1,6 @@
 import 'package:flutter_advanced_boilerplate/i18n/strings.g.dart';
 import 'package:flutter_advanced_boilerplate/modules/dio/dio_exception_handler.dart';
+import 'package:flutter_advanced_boilerplate/modules/error_report/exceptions_util.dart';
 import 'package:flutter_advanced_boilerplate/utils/methods/aliases.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -19,6 +20,8 @@ abstract class  AlertModel with _$AlertModel {
   const factory AlertModel({
     required String message,
     required AlertType type,
+     dynamic exception,
+     StackTrace? stackTrace,
     @Default(false) bool translatable,
     int? code,
   }) = _AlertModel;
@@ -43,37 +46,16 @@ abstract class  AlertModel with _$AlertModel {
 
   factory AlertModel.exception({
     required dynamic exception,
-    bool isTest = false,
-    StackTrace? stackTrace,
-  }) {
-    String message;
-    var translatable = false;
+    required StackTrace? stackTrace,
+  }) { 
 
-    switch (exception) {
-      case BadNetworkException _:
-      // case NetworkException _:
-      //   message = t['core.errors.others.no_internet_connection'] as String;
-      //   translatable = true;
-      case InternalServerException _:
-        message = t['core.errors.others.server_failure'] as String;
-        translatable = true;
-      case InvalidJsonFormatException _:
-        message = t['core.errors.others.communication_error'] as String;
-        translatable = true;
-      case ApiException _:
-        message = exception.errorMessage;
-      default:
-        message = exception.toString();
-    }
-
-    if (isTest) {
-      logIt.wtf(message, stackTrace: stackTrace);
-    }
+   final message = getExceptionMessage(exception);
 
     return AlertModel(
-      message: message,
-      type: AlertType.exception,
-      translatable: translatable,
+      message: message?? t.core.errors.others.an_unknown_error,
+      type: AlertType.exception, 
+      exception: exception,
+      stackTrace: stackTrace,
     );
   }
 

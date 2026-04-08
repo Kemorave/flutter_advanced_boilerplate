@@ -9,7 +9,6 @@ import 'package:flutter_advanced_boilerplate/utils/constants.dart';
 import 'package:flutter_advanced_boilerplate/utils/gen/assets.gen.dart';
 import 'package:flutter_advanced_boilerplate/utils/router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -24,8 +23,17 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final ImagePicker picker = ImagePicker();
-  final _formKey = GlobalKey<FormBuilderState>();
+  final _formKey = GlobalKey<FormState>();
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
   bool _isLoading = false;
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,15 +79,15 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Scaffold(
           body: Padding(
             padding: EdgeInsets.symmetric(horizontal: $constants.insets.md),
-            child: FormBuilder(
+            child: Form(
               key: _formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Spacer(),
-                  FormBuilderTextField(
-                    name: 'username',
+                  TextFormField(
+                    controller: _usernameController,
                     decoration: InputDecoration(
                       labelText: context.t.core.form.username.label,
                       hintText: context.t.core.form.username.hint,
@@ -101,8 +109,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     enabled: !_isLoading,
                   ),
                   10.verticalSpace,
-                  FormBuilderTextField(
-                    name: 'password',
+                  TextFormField(
+                    controller: _passwordController,
                     decoration: InputDecoration(
                       labelText: context.t.core.form.password.label,
                       hintText: context.t.core.form.password.hint,
@@ -122,8 +130,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       return null;
                     },
                     textInputAction: TextInputAction.done,
-                    onSubmitted: (_) {
-                      if (_formKey.currentState?.saveAndValidate() ?? false) {
+                    onFieldSubmitted: (_) {
+                      if (_formKey.currentState?.validate() ?? false) {
                         _handleLogin(context);
                       }
                     },
@@ -140,8 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: _isLoading
                           ? null
                           : () {
-                              if (_formKey.currentState?.saveAndValidate() ??
-                                  false) {
+                              if (_formKey.currentState?.validate() ?? false) {
                                 _handleLogin(context);
                               }
                             },
@@ -173,12 +180,9 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _handleLogin(BuildContext context) {
-    final formData = _formKey.currentState?.value;
-    if (formData != null) {
-      context.read<AuthCubit>().login(
-        username: formData['username'] as String,
-        password: formData['password'] as String,
-      );
-    }
+    final username = _usernameController.text;
+    final password = _passwordController.text;
+
+    context.read<AuthCubit>().login(username: username, password: password);
   }
 }

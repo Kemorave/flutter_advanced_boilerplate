@@ -36,13 +36,6 @@ class App extends StatelessWidget {
             ],
             child: MaterialApp.router(
               scaffoldMessengerKey: rootScaffoldMessengerKey,
-
-              /// Theme configuration.
-              ///
-              // darkTheme: state.theme.dark,
-              // themeMode: state.theme.mode,
-
-              /// Environment configuration.
               theme: ThemeBuilderHelper.buildTheme(
                 brightness: Brightness.light,
               ),

@@ -3,27 +3,18 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_advanced_boilerplate/features/app/models/env_model.dart';
 import 'package:flutter_advanced_boilerplate/modules/dio/interceptors/api_error_interceptor.dart';
-import 'package:flutter_advanced_boilerplate/modules/dio/interceptors/bad_network_error_interceptor.dart';
-import 'package:flutter_advanced_boilerplate/modules/dio/interceptors/internal_server_error_interceptor.dart';
-import 'package:flutter_advanced_boilerplate/modules/dio/interceptors/unathenticated_interceptor.dart';
-import 'package:flutter_advanced_boilerplate/modules/token_refresh/dio_token_refresh.dart'; 
-import 'package:sentry_dio/sentry_dio.dart'; 
+import 'package:flutter_advanced_boilerplate/modules/dio/interceptors/auth_token_interceptor.dart';
+import 'package:sentry_dio/sentry_dio.dart';
 
-Dio initDioClient(
-  EnvModel env,
-  DioTokenRefresh dioTokenRefresh,
-) {
+Dio initDioClient(EnvModel env, AuthTokenInterceptor authTokenInterceptor) {
   final dio = Dio();
 
   dio.options.baseUrl = env.restApiUrl;
   dio.options.headers['Accept-Language'] = Platform.localeName.substring(0, 2);
   dio.options.connectTimeout = const Duration(seconds: 10);
   dio.options.receiveTimeout = const Duration(seconds: 10);
-  dio.interceptors.add(dioTokenRefresh.fresh);
-  dio.interceptors.add(BadNetworkErrorInterceptor());
-  dio.interceptors.add(InternalServerErrorInterceptor());
-  dio.interceptors.add(ApiErrorInterceptor());
-  dio.interceptors.add(UnauthenticatedInterceptor());
+  dio.interceptors.add(authTokenInterceptor); 
+  dio.interceptors.add(ApiErrorInterceptor()); 
 
   // Sentrie's performance tracing, http breadcrumbs and
   // automatic recording of bad http requests for dio.

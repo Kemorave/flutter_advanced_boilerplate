@@ -3,35 +3,24 @@ import 'dart:async';
 import 'package:flutter_advanced_boilerplate/features/app/models/alert_model.dart';
 import 'package:flutter_advanced_boilerplate/features/app/models/user_model.dart';
 import 'package:flutter_advanced_boilerplate/features/auth/login/networking/auth_repository.dart';
+import 'package:flutter_advanced_boilerplate/modules/dio/interceptors/auth_token_interceptor.dart';
 import 'package:flutter_advanced_boilerplate/modules/token_refresh/dio_token_refresh.dart';
-import 'package:flutter_advanced_boilerplate/utils/methods/aliases.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:fresh_dio/fresh_dio.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 part 'auth_cubit.freezed.dart';
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit(this._authRepository, this._dioTokenRefresh)
-    : super(const AuthState.loading()) {
-    _dioTokenRefresh.fresh.authenticationStatus.listen((event) async {
-      if (event == AuthenticationStatus.authenticated) {
-        final auth = await _dioTokenRefresh.fresh.token;
-        emit(AuthState.authenticated(user: auth!.user));
-      } else if (event == AuthenticationStatus.unauthenticated) {
-        emit(const AuthState.unauthenticated());
-      }
-      appRouter.refresh();
-    });
-  }
+  AuthCubit(this._authRepository, this._authTokenInterceptor)
+    : super(const AuthState.loading());
 
   final AuthRepository _authRepository;
-  final DioTokenRefresh _dioTokenRefresh;
+  final AuthTokenInterceptor _authTokenInterceptor;
 
   Future<bool> isAuthenticated() async {
-    final token = await _dioTokenRefresh.fresh.token;
+    final token = await _authTokenInterceptor.getToken();
     return token != null;
   }
 
@@ -50,7 +39,7 @@ class AuthCubit extends Cubit<AuthState> {
 
     await response.match(
       (alert) async => emit(AuthState.failed(alert: alert)),
-      (auth) async => _dioTokenRefresh.fresh.setToken(auth),
+      (auth) async => _authTokenInterceptor.setToken(auth),
     );
   }
 
@@ -59,7 +48,7 @@ class AuthCubit extends Cubit<AuthState> {
       final previousState = state;
       emit(const AuthState.loading());
 
-      final tokens = await _dioTokenRefresh.fresh.token;
+      final tokens = await _authTokenInterceptor.getToken();
       final response = await _authRepository.logout(auth: tokens!);
 
       await response.match(
@@ -68,7 +57,7 @@ class AuthCubit extends Cubit<AuthState> {
           emit(previousState);
         },
         (_) async {
-          await _dioTokenRefresh.fresh.clearToken();
+          await _authTokenInterceptor.clearToken();
           Sentry.configureScope((scope) {
             scope.setUser(null);
           });

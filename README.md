@@ -295,19 +295,19 @@ Apart from the above, constants, helper classes, and methods, shortcuts and many
 This repository makes use of the following pub packages:
 | Package | Version | Usage |
 | ------ | ------ | ------ |
-| [dio](https://pub.dev/packages/dio/versions/4.0.6) | ^4.0.6 | API*
-| [graphql_flutter](https://pub.dev/packages/graphql_flutter/versions/5.1.0) | ^5.1.0 | API*
-| [web_socket_channel](https://pub.dev/packages/web_socket_channel/versions/2.2.0) | ^2.2.0 | API
-| [internet_connection_checker_plus](https://pub.dev/packages/internet_connection_checker_plus/versions/1.0.1) | ^1.0.1 | Network
-| [fresh_dio](https://pub.dev/packages/fresh_dio/versions/0.3.2) | ^0.3.2 | Auth*
-| [fresh_graphql](https://pub.dev/packages/fresh_graphql/versions/0.5.2) | ^0.5.2 | Auth*
-| [keframe](https://pub.dev/packages/keframe/versions/3.0.0) | ^3.0.0 | Performance*
-| [flutter_bloc](https://pub.dev/packages/flutter_bloc/versions/8.1.1) | ^8.1.1 | State & Architecture*
-| [hydrated_bloc](https://pub.dev/packages/hydrated_bloc/versions/8.1.0) | ^8.1.0 | State Persistance*
-| [very_good_analysis](https://pub.dev/packages/very_good_analysis/versions/3.1.0) | ^3.1.0 | Linting*
-| [dart_code_metrics](https://pub.dev/packages/dart_code_metrics/versions/4.19.1) | ^4.19.1 | Linting*
-| [reactive_forms](https://pub.dev/packages/reactive_forms/versions/14.1.0) | ^14.1.0 | Forms*
-| [injectable](https://pub.dev/packages/injectable/versions/1.5.4) | ^1.5.4 | Dependency Injection*
+| [dio](https://pub.dev/packages/dio/versions/5.0.0) | ^5.7.0 | API*
+| [flutter_bloc](https://pub.dev/packages/flutter_bloc/versions/9.0.0) | ^9.1.1 | State & Architecture*
+| [hydrated_bloc](https://pub.dev/packages/hydrated_bloc/versions/11.0.0) | ^11.0.0 | State Persistence*
+| [flutter_secure_storage](https://pub.dev/packages/flutter_secure_storage/versions/9.0.0) | ^10.0.0 | Secure Storage*
+| [sentry_flutter](https://pub.dev/packages/sentry_flutter/versions/9.0.0) | ^9.3.0 | Error Reporting*
+| [go_router](https://pub.dev/packages/go_router/versions/13.0.0) | ^17.1.0 | Routing*
+| [fpdart](https://pub.dev/packages/fpdart/versions/1.0.0) | ^1.2.0 | Functional Programming*
+| [get_it](https://pub.dev/packages/get_it/versions/7.0.0) | ^9.2.1 | Dependency Injection*
+| [slang](https://pub.dev/packages/slang/versions/4.0.0) | ^4.4.0 | Internationalization*
+| [image_picker](https://pub.dev/packages/image_picker/versions/1.0.0) | ^1.1.2 | Image Selection*
+| [cached_network_image](https://pub.dev/packages/cached_network_image/versions/3.0.0) | ^3.4.1 | Image Caching*
+| [flutter_svg](https://pub.dev/packages/flutter_svg/versions/2.0.0) | ^2.0.17 | SVG Support*
+| [flutter_screenutil](https://pub.dev/packages/flutter_screenutil/versions/5.0.0) | ^5.9.3 | Responsive Design*
 | [get_it](https://pub.dev/packages/get_it/versions/7.2.0) | ^7.2.0 | Service Locator*
 | [freezed](https://pub.dev/packages/freezed/versions/2.2.0) | ^2.2.0 | Code Generation for Classes*
 | [artemis](https://pub.dev/packages/artemis/versions/7.9.0-beta) | ^7.9.0-beta | Code Generation for GraphQL*

@@ -8,9 +8,9 @@ import 'package:flutter_advanced_boilerplate/features/app/app.dart';
 import 'package:flutter_advanced_boilerplate/i18n/strings.g.dart';
 import 'package:flutter_advanced_boilerplate/modules/bloc_observer/observer.dart';
 import 'package:flutter_advanced_boilerplate/modules/dependency_injection/di.dart';
-import 'package:flutter_advanced_boilerplate/modules/sentry/sentry_module.dart';
 import 'package:flutter_advanced_boilerplate/utils/helpers/json_helper.dart';
 import 'package:flutter_advanced_boilerplate/utils/helpers/permission_helper.dart';
+import 'package:flutter_advanced_boilerplate/utils/methods/aliases.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
@@ -19,33 +19,19 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 
 Future<void> main() async {
   await runZonedGuarded<Future<void>>(
-    () async {
-      // Preserve splash screen until authentication complete.
+    () async { 
       final widgetsBinding = SentryWidgetsFlutterBinding.ensureInitialized();
 
-      await JsonHelper.init();
       FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-      Animate.restartOnHotReload = kDebugMode;
-      // Use device locale.
-      // if(LocaleSettings.useDeviceLocale)
-      // await LocaleSettings.useDeviceLocale();
-
-      //
-      //
-      //  await LocaleSettings.setLocale(AppLocale.ar);
-      
-
-     
 
       if (Platform.isAndroid || Platform.isIOS) {
-        // Sets up allowed device orientations and other settings for the app.
+        
         await SystemChrome.setPreferredOrientations(
           [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown],
         );
       }
-
-      // Sets system overylay style.
+      
       await SystemChrome.setEnabledSystemUIMode(
         SystemUiMode.manual,
         overlays: [
@@ -53,24 +39,27 @@ Future<void> main() async {
           SystemUiOverlay.bottom,
         ],
       );
-
-      // This setting smoothes transition color for LinearGradient.
-      //Paint.enableDithering = true;
-
-
-      // Set bloc observer and hydrated bloc storage.
-      Bloc.observer = Observer();
-      HydratedBloc.storage = await HydratedStorage.build(
-        storageDirectory:HydratedStorageDirectory((await getApplicationDocumentsDirectory()).path),
-      );
-
-      await PermissionsHelper.instance.checkAllPermissions();
-
+ 
       // Configures dependency injection to init modules and singletons.
       await injectContainer();
+ 
+      await errorReportService.initService();
+      await JsonHelper.init();
+      await PermissionsHelper.instance.checkAllPermissions();
 
-      // Inits sentry for error tracking.
-      await initializeSentry();
+      // Use device locale. 
+      await LocaleSettings.useDeviceLocale();
+      // if(kDebugMode)
+      //await LocaleSettings.setLocale(AppLocale.en);
+
+      Bloc.observer = Observer();
+      HydratedBloc.storage = await HydratedStorage.build(
+        storageDirectory: HydratedStorageDirectory(
+          (await getApplicationDocumentsDirectory()).path,
+        ),
+      );
+
+      Animate.restartOnHotReload = kDebugMode;
 
         runApp(
         // Sentrie's performance tracing for AssetBundles.
@@ -81,6 +70,7 @@ Future<void> main() async {
           ),
         ),
       );
+      
       FlutterNativeSplash.remove();
     },
     (exception, stackTrace) async { 

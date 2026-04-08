@@ -4,6 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter_advanced_boilerplate/features/app/models/alert_model.dart';
 import 'package:flutter_advanced_boilerplate/features/app/models/auth_model.dart';
 import 'package:flutter_advanced_boilerplate/features/app/models/user_model.dart';
+import 'package:flutter_advanced_boilerplate/utils/exceptions/custom_exception.dart';
+import 'package:flutter_advanced_boilerplate/utils/methods/shortcuts.dart';
 import 'package:fpdart/fpdart.dart';
 
 class AuthRepository {
@@ -19,30 +21,35 @@ class AuthRepository {
     // Normally you should wrap the request with dioExceptionHandler.
     // Where error is catched and the returned error message is parsed to
     // create alert. But for the demo I will create alert without localization.
+    return runAndReport(
+      () async {
+        final isIdPwCorrect = username == 'test' && password == 'test';
 
-    final isIdPwCorrect = username == 'test' && password == 'test';
+        if (isIdPwCorrect) {
+          final user = UserModel.initial();
+          final auth = AuthModel(
+            tokenType: 'Bearer ',
+            accessToken: '',
+            refreshToken: '',
+            user: user,
+          );
 
-    if (isIdPwCorrect) {
-      final user = UserModel.initial();
-      final auth = AuthModel(
-        tokenType: 'Bearer ',
-        accessToken: '',
-        refreshToken: '',
-        user: user,
-      );
+          Timer(const Duration(seconds: 3), () {});
 
-      Timer(const Duration(seconds: 3), () {});
-
-      return right(auth);
-    } else {
-      final alert = AlertModel.alert(
+          return auth;
+        } else {
+          throw CustomException(
+            message: 'API error NO AUTH',
+            isIgnorable: true,
+          );
+        }
+      },
+      (e, s) => AlertModel.alert(
         message:
             'ID or PW is wrong. Please enter test for demo to both fields.',
         type: AlertType.destructive,
-      );
-
-      return left(alert);
-    }
+      ),
+    );
   }
 
   Future<Either<AlertModel, void>> logout({required AuthModel auth}) async {

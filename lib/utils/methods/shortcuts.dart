@@ -1,6 +1,10 @@
- 
 import 'package:flutter/material.dart';
-
+import 'package:flutter/services.dart';
+import 'package:flutter_advanced_boilerplate/features/app/models/alert_model.dart';
+import 'package:flutter_advanced_boilerplate/utils/methods/aliases.dart';
+import 'package:flutter_advanced_boilerplate/utils/router.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 Size getSize(BuildContext context) {
   return MediaQuery.of(context).size;
@@ -48,7 +52,7 @@ Color getPrimaryColor(BuildContext context) {
 
 Color getCustomOnPrimaryColor(BuildContext context) {
   return getTheme(context).primary.withOpacity(0.5);
-/*   return ElevationOverlay.colorWithOverlay(
+  /*   return ElevationOverlay.colorWithOverlay(
     getTheme(context).primary,
     getTheme(context).background,
     isDarkMode(context) ? 1000 : 500,
@@ -71,4 +75,79 @@ LinearGradient colorsToGradient(List<Color> colors, {double opacity = 1}) {
   );
 }
 
- 
+Future<void> copyToClipboard(String text) async {
+  await Clipboard.setData(ClipboardData(text: text));
+}
+
+typedef CustomEither<T> = Either<AlertModel, T>;
+
+Future<CustomEither<T>> runSafe<T>(
+  Future<T> Function() future, [
+  AlertModel Function(Object, StackTrace)? onError,
+]) async {
+  return TaskEither<AlertModel, T>.tryCatch(
+    () => future(),
+    onError ?? (e, s) => AlertModel.exception(exception: e, stackTrace: s),
+  ).run();
+}
+
+Future<CustomEither<T>> runAndReport<T>(
+  Future<T> Function() future, [
+  AlertModel Function(Object, StackTrace)? onError,
+]) async {
+  final result = await runSafe(future, onError);
+  await result.match((a) {
+    if (a.type == AlertType.quiet) return Future<void>.value();
+
+    return errorReportService.reportException(a.exception, a.stackTrace);
+  }, (_) => Future<void>.value());
+  return result;
+}
+
+CustomEither<T> runSafeSync<T>(T Function() function) {
+  return Either.tryCatch(
+    () => function(),
+    (e, s) => AlertModel.exception(exception: e, stackTrace: s),
+  );
+}
+
+CustomEither<T> runAndReportSync<T>(
+  T Function() function, {
+  bool showSnackbar = false,
+}) {
+  final result = runSafeSync(function)
+    ..match((a) {
+      if (a.type == AlertType.quiet) return; 
+      errorReportService.reportException(a.exception, a.stackTrace);
+      if (showSnackbar) {
+        switch (a.type) {
+          case AlertType.destructive:
+            showWarningSnackbar(message: a.message);
+         case AlertType.constructive:
+            showSuccessSnackbar(message: a.message);
+            case AlertType.notification:
+            showInfoSnackbar(message: a.message);
+            case AlertType.error:
+            showErrorSnackbar(message: a.message);
+            case AlertType.exception:
+            showErrorSnackbar(message: a.message);
+          default:
+        }
+      }
+    }, (_) => null);
+  return result;
+}
+
+Future<CustomEither<bool>> openLink(
+  String url, {
+  LaunchMode mode = LaunchMode.platformDefault,
+  String? webOnlyWindowName,
+}) async {
+  return runAndReport(
+    () => launchUrl(
+      Uri.parse(url),
+      mode: mode,
+      webOnlyWindowName: webOnlyWindowName,
+    ),
+  );
+}
