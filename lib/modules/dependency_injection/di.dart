@@ -10,7 +10,7 @@ import 'package:flutter_advanced_boilerplate/features/profile/networking/profile
 import 'package:flutter_advanced_boilerplate/modules/dio/dio_client.dart';
 import 'package:flutter_advanced_boilerplate/modules/secure_storage/secure_auth_storage.dart';
 import 'package:flutter_advanced_boilerplate/modules/token_refresh/dio_token_refresh.dart';
-import 'package:flutter_advanced_boilerplate/utils/helpers/d_i_container.dart';
+import 'package:flutter_advanced_boilerplate/utils/d_i_container.dart';
 import 'package:flutter_advanced_boilerplate/utils/router.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fresh_dio/fresh_dio.dart';

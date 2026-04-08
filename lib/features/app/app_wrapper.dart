@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_advanced_boilerplate/features/app/blocs/app_cubit.dart';
-import 'package:flutter_advanced_boilerplate/features/auth/login/blocs/auth_cubit.dart';
-import 'package:flutter_advanced_boilerplate/features/auth/login/presentation/login_screen.dart';
-import 'package:flutter_advanced_boilerplate/modules/dependency_injection/di.dart';
 import 'package:flutter_advanced_boilerplate/utils/constants.dart';
-import 'package:flutter_advanced_boilerplate/utils/helpers/d_i_container.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
 
 class AppWrapper extends StatefulWidget {
-  const AppWrapper({super.key, required this.navigationShell});
+  const AppWrapper({required this.navigationShell, super.key});
   final StatefulNavigationShell navigationShell;
 
   @override

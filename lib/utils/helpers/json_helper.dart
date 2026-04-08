@@ -61,7 +61,7 @@ class JsonHelper {
 
   static Future<String> encodeAsync(Map<String, dynamic> map) async {
     await init();
-    return await _isolate.encode(map);
+    return _isolate.encode(map);
   }
 
   static Future<Map<String, dynamic>> loadFromAssetAsync(String path) async {

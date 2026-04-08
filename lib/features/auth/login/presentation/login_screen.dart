@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_advanced_boilerplate/utils/gen/assets.gen.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_advanced_boilerplate/features/app/blocs/app_cubit.dart';
 import 'package:flutter_advanced_boilerplate/features/app/widgets/customs/custom_image_view.dart';
 import 'package:flutter_advanced_boilerplate/features/app/widgets/utils/keyboard_dismisser.dart';
@@ -8,9 +6,11 @@ import 'package:flutter_advanced_boilerplate/features/auth/login/blocs/auth_cubi
 import 'package:flutter_advanced_boilerplate/features/auth/login/presentation/components/intro_widget.dart';
 import 'package:flutter_advanced_boilerplate/i18n/strings.g.dart';
 import 'package:flutter_advanced_boilerplate/utils/constants.dart';
+import 'package:flutter_advanced_boilerplate/utils/gen/assets.gen.dart';
 import 'package:flutter_advanced_boilerplate/utils/router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
 class LoginScreen extends StatefulWidget {

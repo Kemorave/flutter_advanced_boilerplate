@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_boilerplate/features/profile/blocs/profile_cubit.dart';
-import 'package:flutter_advanced_boilerplate/utils/helpers/d_i_container.dart';
+import 'package:flutter_advanced_boilerplate/utils/d_i_container.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_advanced_boilerplate/features/profile/blocs/profile_cubit.dart';
 
 
 class ProfileScreen extends StatelessWidget {
@@ -18,7 +17,7 @@ class ProfileScreen extends StatelessWidget {
 }
 
 class _ProfileScreenContent extends StatelessWidget {
-  const _ProfileScreenContent({super.key});
+  const _ProfileScreenContent();
 
   @override
   Widget build(BuildContext context) {

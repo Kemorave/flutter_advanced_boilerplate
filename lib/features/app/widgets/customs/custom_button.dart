@@ -59,7 +59,7 @@ class CustomButton extends StatelessWidget {
         button = icon != null
             ? FilledButton.icon(
                 onPressed: _disabled ? null : () => onPressed?.call(),
-                icon: icon!,
+                icon: icon,
                 label: content,
               )
             : FilledButton(
@@ -71,7 +71,7 @@ class CustomButton extends StatelessWidget {
         button = icon != null
             ? OutlinedButton.icon(
                 onPressed: _disabled ? null : () => onPressed?.call(),
-                icon: icon!,
+                icon: icon,
                 label: content,
               )
             : OutlinedButton(
@@ -83,7 +83,7 @@ class CustomButton extends StatelessWidget {
         button = icon != null
             ? TextButton.icon(
                 onPressed: _disabled ? null : () => onPressed?.call(),
-                icon: icon!,
+                icon: icon,
                 label: content,
               )
             : TextButton(

@@ -6,11 +6,6 @@ class PaginatedModel<T> {
     required this.items,
   });
 
-  final int currentPage;
-  final int size;
-  final int total;
-  final List<T> items;
-
   factory PaginatedModel.fromJson(
     Map<String, dynamic> json,
     T Function(Object? json) fromJsonT,
@@ -23,6 +18,14 @@ class PaginatedModel<T> {
     );
   }
 
+  factory PaginatedModel.initial() =>
+      PaginatedModel<T>(currentPage: 1, size: 100, total: 0, items: <T>[]);
+
+  final int currentPage;
+  final int size;
+  final int total;
+  final List<T> items;
+
   Map<String, dynamic> toJson(Object? Function(T value) toJsonT) {
     return {
       'currentPage': currentPage,
@@ -31,7 +34,4 @@ class PaginatedModel<T> {
       'items': items.map(toJsonT).toList(),
     };
   }
-
-  factory PaginatedModel.initial() =>
-      PaginatedModel<T>(currentPage: 1, size: 100, total: 0, items: <T>[]);
 }

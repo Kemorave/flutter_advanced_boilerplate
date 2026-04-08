@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_advanced_boilerplate/features/app/blocs/app_cubit.dart';
 import 'package:flutter_advanced_boilerplate/features/auth/login/blocs/auth_cubit.dart';
-import 'package:flutter_advanced_boilerplate/utils/helpers/d_i_container.dart';
+import 'package:flutter_advanced_boilerplate/i18n/strings.g.dart';
+import 'package:flutter_advanced_boilerplate/utils/constants.dart';
+import 'package:flutter_advanced_boilerplate/utils/d_i_container.dart';
 import 'package:flutter_advanced_boilerplate/utils/helpers/theme_builder_helper.dart';
+import 'package:flutter_advanced_boilerplate/utils/methods/aliases.dart';
 import 'package:flutter_advanced_boilerplate/utils/router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_advanced_boilerplate/features/app/blocs/app_cubit.dart';
-import 'package:flutter_advanced_boilerplate/i18n/strings.g.dart';
-import 'package:flutter_advanced_boilerplate/utils/constants.dart';
-import 'package:flutter_advanced_boilerplate/utils/methods/aliases.dart';
 import 'package:statsfl/statsfl.dart';
 
 class App extends StatelessWidget {

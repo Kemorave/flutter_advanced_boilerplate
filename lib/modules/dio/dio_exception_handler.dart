@@ -1,6 +1,6 @@
-import 'package:fpdart/fpdart.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_advanced_boilerplate/features/app/models/alert_model.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 typedef RepositoryFunction<T> = Future<Either<AlertModel, T>> Function();

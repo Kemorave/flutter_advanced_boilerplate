@@ -14,7 +14,7 @@ class TextDivider extends StatelessWidget {
         children: [
           Expanded(
             child: Divider(
-              color: getTheme(context).onBackground.withOpacity(0.4),
+              color: getTheme(context).onSurface.withOpacity(0.4),
             ),
           ),
           Padding(
@@ -26,7 +26,7 @@ class TextDivider extends StatelessWidget {
           ),
           Expanded(
             child: Divider(
-              color: getTheme(context).onBackground.withOpacity(0.4),
+              color: getTheme(context).onSurface.withOpacity(0.4),
             ),
           ),
         ],

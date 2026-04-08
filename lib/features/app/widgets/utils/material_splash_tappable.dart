@@ -24,7 +24,7 @@ class MaterialSplashTappable extends StatelessWidget {
             radius ?? $constants.theme.defaultBorderRadius,
           ),
         ),
-        overlayColor: MaterialStateProperty.all(
+        overlayColor: WidgetStateProperty.all(
           getCustomOnPrimaryColor(context).withOpacity(0.1),
         ),
         onTap: onTap,

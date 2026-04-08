@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_boilerplate/i18n/strings.g.dart';
 import 'package:flutter_advanced_boilerplate/utils/helpers/files_helper.dart';
-import 'package:flutter_advanced_boilerplate/utils/methods/aliases.dart';
 import 'package:flutter_advanced_boilerplate/utils/methods/file_type_extension.dart';
 import 'package:flutter_advanced_boilerplate/utils/router.dart';
 import 'package:image_picker/image_picker.dart';
@@ -178,7 +177,7 @@ class MediaHelper {
       }
     } else if (context.mounted) {
       showErrorSnackbar(message: context.t.core.file_picker.no_permission,
-      action: SnackBarAction(label: context.t.core.file_picker.open_settings, onPressed: () => openAppSettings(),)
+      action: SnackBarAction(label: context.t.core.file_picker.open_settings, onPressed: openAppSettings,)
       );
       
       

@@ -64,7 +64,6 @@ abstract class  AlertModel with _$AlertModel {
         message = exception.errorMessage;
       default:
         message = exception.toString();
-        break;
     }
 
     if (isTest) {

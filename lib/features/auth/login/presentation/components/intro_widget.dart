@@ -1,16 +1,14 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_advanced_boilerplate/utils/gen/assets.gen.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 // import 'package:flutter_advanced_boilerplate/assets.dart';
 import 'package:flutter_advanced_boilerplate/features/app/blocs/app_cubit.dart';
 import 'package:flutter_advanced_boilerplate/features/app/widgets/customs/custom_image_view.dart';
+import 'package:flutter_advanced_boilerplate/utils/gen/assets.gen.dart';
 import 'package:flutter_advanced_boilerplate/utils/methods/shortcuts.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class IntroWidget extends StatefulWidget {
   const IntroWidget({super.key});
@@ -40,7 +38,7 @@ class _IntroWidgetState extends State<IntroWidget> {
               padding: const EdgeInsets.only(top: 100),
               child: Stack(
                 children: [
-                  _floatingStick(start: -0.5.sw, thickness: 2),
+                  _floatingStick(start: -0.5.sw),
                   _floatingStick(thickness: 1, start: -1.sw),
                   _floatingStick(thickness: 1, start: -0.4.sw)
                 ],
@@ -193,7 +191,7 @@ class _IntroWidgetState extends State<IntroWidget> {
               onPlay: (controller) => controller.repeat(reverse: true),
             )
             .slide(
-                begin: Offset(0, 0.1),
+                begin: const Offset(0, 0.1),
                 end: Offset.zero,
                 duration: 1200.milliseconds),
       ],

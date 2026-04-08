@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_advanced_boilerplate/features/auth/login/blocs/auth_cubit.dart';
 import 'package:flutter_advanced_boilerplate/features/informations/informations_screen.dart';
 import 'package:flutter_advanced_boilerplate/i18n/strings.g.dart';
-import 'package:flutter_advanced_boilerplate/utils/helpers/d_i_container.dart';
+import 'package:flutter_advanced_boilerplate/utils/d_i_container.dart';
 
 final $constants = Constants();
 
@@ -156,19 +156,19 @@ class _Navigation {
       ];
 
   List<BottomNavigationBarItem> bottomNavigationItems(BuildContext context) => [
-        BottomNavigationBarItem(
-          icon: const Icon(
+        const BottomNavigationBarItem(
+          icon: Icon(
             Icons.home,
             size: 24,
           ),
-          label: "Home",
+          label: 'Home',
         ),
-        BottomNavigationBarItem(
-          icon: const Icon(
+        const BottomNavigationBarItem(
+          icon: Icon(
             Icons.person,
             size: 24,
           ),
-          label: "Profile",
+          label: 'Profile',
         ),
       ];
 }

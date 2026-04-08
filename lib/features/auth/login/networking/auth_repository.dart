@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:fpdart/fpdart.dart';
 import 'package:flutter_advanced_boilerplate/features/app/models/alert_model.dart';
 import 'package:flutter_advanced_boilerplate/features/app/models/auth_model.dart';
 import 'package:flutter_advanced_boilerplate/features/app/models/user_model.dart';
+import 'package:fpdart/fpdart.dart';
 
 class AuthRepository {
   AuthRepository(this._dioClient);

@@ -75,8 +75,6 @@ class ThemeBuilderHelper {
       onPrimary: textColor ?? Colors.white,
       secondary: secondaryColor ?? (isDark ? Colors.cyanAccent : Colors.orange),
       onSecondary: textColor ?? Colors.white,
-      background: scaffoldBackgroundColor ?? (isDark ? Colors.black : Colors.white),
-      onBackground: textColor ?? (isDark ? Colors.white : Colors.black),
       surface: cardColor ?? (isDark ? Colors.grey[800]! : Colors.white),
       onSurface: textColor ?? (isDark ? Colors.white : Colors.black),
       error: errorColor ?? Colors.red,
@@ -86,7 +84,7 @@ class ThemeBuilderHelper {
     return ThemeData(
       brightness: brightness,
       primaryColor: colorScheme.primary,
-      scaffoldBackgroundColor: colorScheme.background,
+      scaffoldBackgroundColor: colorScheme.surface,
       cardColor: colorScheme.surface,
       hintColor: hintColor ?? Colors.grey,
       colorScheme: colorScheme,
@@ -134,7 +132,7 @@ class ThemeBuilderHelper {
             backgroundColor: colorScheme.secondary,
             foregroundColor: colorScheme.onSecondary,
           ),
-      iconTheme: iconTheme ?? IconThemeData(color: colorScheme.onBackground, size: options.iconSize),
+      iconTheme: iconTheme ?? IconThemeData(color: colorScheme.onSurface, size: options.iconSize),
       bottomNavigationBarTheme: bottomNavTheme ??
           BottomNavigationBarThemeData(
             backgroundColor: colorScheme.surface,
@@ -143,17 +141,17 @@ class ThemeBuilderHelper {
           ),
       checkboxTheme: checkboxTheme ??
           CheckboxThemeData(
-            fillColor: MaterialStateProperty.all(colorScheme.primary),
+            fillColor: WidgetStateProperty.all(colorScheme.primary),
           ),
       radioTheme: radioTheme ??
           RadioThemeData(
-            fillColor: MaterialStateProperty.all(colorScheme.primary),
+            fillColor: WidgetStateProperty.all(colorScheme.primary),
           ),
       switchTheme: switchTheme ??
           SwitchThemeData(
-            thumbColor: MaterialStateProperty.all(colorScheme.primary),
+            thumbColor: WidgetStateProperty.all(colorScheme.primary),
             trackColor:
-                MaterialStateProperty.all(colorScheme.primary.withOpacity(0.5)),
+                WidgetStateProperty.all(colorScheme.primary.withOpacity(0.5)),
           ),
       sliderTheme: sliderTheme ??
           SliderThemeData(
@@ -177,35 +175,35 @@ class ThemeBuilderHelper {
   static TextStyle bigLabel(BuildContext context, {Color? color}) {
     final theme = Theme.of(context);
     return theme.textTheme.titleLarge?.copyWith(
-          color: color ?? theme.colorScheme.onBackground,
+          color: color ?? theme.colorScheme.onSurface,
         ) ??
         TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 20,
-          color: color ?? theme.colorScheme.onBackground,
+          color: color ?? theme.colorScheme.onSurface,
         );
   }
 
   static TextStyle mediumLabel(BuildContext context, {Color? color}) {
     final theme = Theme.of(context);
     return theme.textTheme.titleMedium?.copyWith(
-          color: color ?? theme.colorScheme.onBackground,
+          color: color ?? theme.colorScheme.onSurface,
         ) ??
         TextStyle(
           fontWeight: FontWeight.w600,
           fontSize: 16,
-          color: color ?? theme.colorScheme.onBackground,
+          color: color ?? theme.colorScheme.onSurface,
         );
   }
 
   static TextStyle smallLabel(BuildContext context, {Color? color}) {
     final theme = Theme.of(context);
     return theme.textTheme.bodySmall?.copyWith(
-          color: color ?? theme.colorScheme.onBackground,
+          color: color ?? theme.colorScheme.onSurface,
         ) ??
         TextStyle(
           fontSize: 14,
-          color: color ?? theme.colorScheme.onBackground,
+          color: color ?? theme.colorScheme.onSurface,
         );
   }
 }
