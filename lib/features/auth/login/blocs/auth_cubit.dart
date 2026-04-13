@@ -4,7 +4,6 @@ import 'package:flutter_advanced_boilerplate/features/app/models/alert_model.dar
 import 'package:flutter_advanced_boilerplate/features/app/models/user_model.dart';
 import 'package:flutter_advanced_boilerplate/features/auth/login/networking/auth_repository.dart';
 import 'package:flutter_advanced_boilerplate/modules/dio/interceptors/auth_token_interceptor.dart';
-import 'package:flutter_advanced_boilerplate/modules/token_refresh/dio_token_refresh.dart';
 import 'package:flutter_advanced_boilerplate/utils/extensions/bloc_extension.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -53,7 +52,7 @@ class AuthCubit extends Cubit<AuthState> with SafeEmitMixin {
 
     final tokens = await _authTokenInterceptor.getToken();
     if (tokens != null) {
-      final response = await _authRepository.logout(auth: tokens!);
+      final response = await _authRepository.logout(auth: tokens);
 
       await response.match(
         (alert) async {

@@ -3,6 +3,7 @@ import 'package:flutter_advanced_boilerplate/features/auth/login/blocs/auth_cubi
 import 'package:flutter_advanced_boilerplate/features/informations/informations_screen.dart';
 import 'package:flutter_advanced_boilerplate/i18n/strings.g.dart';
 import 'package:flutter_advanced_boilerplate/utils/d_i_container.dart';
+import 'package:flutter_advanced_boilerplate/utils/extensions/color_extensions.dart';
 
 final $constants = Constants();
 
@@ -66,7 +67,7 @@ class _Insets {
 class _Shadows {
   final text = [
     Shadow(
-      color: Colors.black.withOpacity(0.6),
+      color: Colors.black.withOpacityFactor(0.6),
       offset: const Offset(0, 2),
       blurRadius: 2,
     ),
@@ -74,7 +75,7 @@ class _Shadows {
 
   final textSoft = [
     Shadow(
-      color: Colors.black.withOpacity(0.25),
+      color: Colors.black.withOpacityFactor(0.25),
       offset: const Offset(0, 2),
       blurRadius: 4,
     ),
@@ -82,7 +83,7 @@ class _Shadows {
 
   final textStrong = [
     Shadow(
-      color: Colors.black.withOpacity(0.6),
+      color: Colors.black.withOpacityFactor(0.6),
       offset: const Offset(0, 4),
       blurRadius: 6,
     ),
@@ -133,42 +134,30 @@ class _API {
 class _Navigation {
   /// Appbar configuration.
   List<AppBar> appbars(BuildContext context) => [
-        AppBar(
-          leading: IconButton(
-            onPressed: () => DIContainer.get<AuthCubit>().logOut(),
-            icon: const Icon(Icons.logout),
-          ),
-          title: Text(
-            context.t.core.navigation.bottom.features,
-          ),
-        ),
-        AppBar(
-          title: Text(
-            context.t.core.navigation.bottom.informations,
-          ),
-        ),
-      ];
+    AppBar(
+      leading: IconButton(
+        onPressed: () => DIContainer.get<AuthCubit>().logOut(),
+        icon: const Icon(Icons.logout),
+      ),
+      title: Text(context.t.core.navigation.bottom.features),
+    ),
+    AppBar(title: Text(context.t.core.navigation.bottom.informations)),
+  ];
 
   /// Bottom navigation configuration.
   List<Widget> bottomNavigationScreens() => const [
-        Placeholder(),
-        InformationsScreen(),
-      ];
+    Placeholder(),
+    InformationsScreen(),
+  ];
 
   List<BottomNavigationBarItem> bottomNavigationItems(BuildContext context) => [
-        const BottomNavigationBarItem(
-          icon: Icon(
-            Icons.home,
-            size: 24,
-          ),
-          label: 'Home',
-        ),
-        const BottomNavigationBarItem(
-          icon: Icon(
-            Icons.person,
-            size: 24,
-          ),
-          label: 'Profile',
-        ),
-      ];
+    const BottomNavigationBarItem(
+      icon: Icon(Icons.home, size: 24),
+      label: 'Home',
+    ),
+    const BottomNavigationBarItem(
+      icon: Icon(Icons.person, size: 24),
+      label: 'Profile',
+    ),
+  ];
 }

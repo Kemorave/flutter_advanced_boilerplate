@@ -65,7 +65,7 @@ Future<void> main() async {
       FlutterNativeSplash.remove();
     },
     (exception, stackTrace) async {
-      logIt.error("[APP ERROR]", error: exception, stackTrace: stackTrace);
+      logIt.error('[APP ERROR]', error: exception, stackTrace: stackTrace);
       await Sentry.captureException(exception, stackTrace: stackTrace);
     },
   );

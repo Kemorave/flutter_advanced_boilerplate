@@ -40,7 +40,7 @@ class SentryErrorReportService implements ErrorReportService {
     String? hint,
   }) async {
     if (isIgnorableException(exception)) {
-      logIt.warn("Ignoring exception", error: exception, stackTrace: stackTrace as StackTrace?);
+      logIt.warn('Ignoring exception', error: exception, stackTrace: stackTrace as StackTrace?);
       return;
     }
 
@@ -58,7 +58,7 @@ class SentryErrorReportService implements ErrorReportService {
     if (tag != null || hint != null) {
       hintObj = Hint.withMap({'tag': tag, 'hint': hint});
     }
-    logIt.error("Exception", error: exception, stackTrace: stackTrace as StackTrace?);
+    logIt.error('Exception', error: exception, stackTrace: stackTrace as StackTrace?);
     await Sentry.captureException(
       exception,
       stackTrace: stackTrace,

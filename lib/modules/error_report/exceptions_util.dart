@@ -39,9 +39,7 @@ String? _getDioExceptionMessage(DioException exception)  {
         return t.core.errors.others.no_internet_connection;
       case DioExceptionType.unknown:
         return t.core.errors.others.an_unknown_error;
-      default:
-        return t.core.errors.others.an_unknown_error;
-    }
+      }
   }
   message = getMessage(exception);
   if (exception is ApiDioException && kDebugMode) {
@@ -49,5 +47,3 @@ String? _getDioExceptionMessage(DioException exception)  {
   }
   return message;
 }
-
-

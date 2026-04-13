@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_advanced_boilerplate/utils/extensions/color_extensions.dart';
 import 'package:flutter_advanced_boilerplate/utils/methods/shortcuts.dart';
 
 class TextDivider extends StatelessWidget {
@@ -14,19 +15,16 @@ class TextDivider extends StatelessWidget {
         children: [
           Expanded(
             child: Divider(
-              color: getTheme(context).onSurface.withOpacity(0.4),
+              color: getTheme(context).onSurface.withOpacityFactor(0.4),
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: Text(
-              text,
-              style: getTextTheme(context).bodyMedium,
-            ),
+            child: Text(text, style: getTextTheme(context).bodyMedium),
           ),
           Expanded(
             child: Divider(
-              color: getTheme(context).onSurface.withOpacity(0.4),
+              color: getTheme(context).onSurface.withOpacityFactor(0.4),
             ),
           ),
         ],

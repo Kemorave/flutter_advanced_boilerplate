@@ -9,8 +9,8 @@ class LoggingHelper {
     ),
   );
 
-  /// Log a message at level [Level.verbose].
-  void verbose(
+  /// Log a message at level [Level.trace].
+  void trace(
     dynamic message, {
     dynamic error,
     bool showInProd = false,
@@ -79,8 +79,8 @@ class LoggingHelper {
     logIt.e(message, error: error, stackTrace: stackTrace);
   }
 
-  /// Log a message at level [Level.wtf].
-  void wtf(
+  /// Log a message at level [Level.fatal].
+  void fatal(
     dynamic message, {
     dynamic error,
     bool showInProd = false,
@@ -90,6 +90,6 @@ class LoggingHelper {
       return;
     }
 
-    logIt.wtf(message, error: error, stackTrace: stackTrace);
+    logIt.f(message, error: error, stackTrace: stackTrace);
   }
 }

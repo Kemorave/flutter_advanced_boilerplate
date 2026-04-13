@@ -12,6 +12,3 @@ GoRouter get appRouter => DIContainer.get<GoRouter>();
 AuthCubit get authCubit => DIContainer.get<AuthCubit>();
 AppCubit get appCubit => DIContainer.get<AppCubit>();
 ErrorReportService get errorReportService => DIContainer.get<ErrorReportService>();
-
-
-

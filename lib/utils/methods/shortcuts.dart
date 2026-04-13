@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_advanced_boilerplate/features/app/models/alert_model.dart';
+import 'package:flutter_advanced_boilerplate/utils/extensions/color_extensions.dart';
 import 'package:flutter_advanced_boilerplate/utils/methods/aliases.dart';
 import 'package:flutter_advanced_boilerplate/utils/router.dart';
 import 'package:fpdart/fpdart.dart';
@@ -51,7 +52,7 @@ Color getPrimaryColor(BuildContext context) {
 }
 
 Color getCustomOnPrimaryColor(BuildContext context) {
-  return getTheme(context).primary.withOpacity(0.5);
+  return getTheme(context).primary.withOpacityFactor(0.5);
   /*   return ElevationOverlay.colorWithOverlay(
     getTheme(context).primary,
     getTheme(context).background,
@@ -60,7 +61,7 @@ Color getCustomOnPrimaryColor(BuildContext context) {
 }
 
 String colorToHex(Color c) {
-  return "#${(c.value.toRadixString(16))..padLeft(8, '0').toUpperCase()}";
+  return "#${(c.toARGB32().toRadixString(16))..padLeft(8, '0').toUpperCase()}";
 }
 
 Color hexToColor(String h) {
@@ -71,7 +72,7 @@ LinearGradient colorsToGradient(List<Color> colors, {double opacity = 1}) {
   return LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
-    colors: colors.map((c) => c.withOpacity(opacity)).toList(),
+    colors: colors.map((c) => c.withOpacityFactor(opacity)).toList(),
   );
 }
 

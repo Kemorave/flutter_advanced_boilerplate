@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter_advanced_boilerplate/utils/methods/file_type_extension.dart';
-import 'package:path_provider/path_provider.dart';
 
 class FilesHelper {
   FilesHelper._();
@@ -38,9 +37,6 @@ class FilesHelper {
     return base64Encode(bytes);
   }
 
-  static Future<File> copyToAppStorage(String path) async {
-    final dir = await getApplicationDocumentsDirectory();
-    return File(path).copy('${dir.path}/${path.split('/').last}');
-  }
+ 
 
 }

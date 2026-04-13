@@ -54,11 +54,12 @@ dependencies:
   infinite_scroll_pagination: ^5.1.0
   json_annotation: ^4.9.0
   logger: ^2.5.0
+  path_provider: ^2.1.5
   permission_handler: ^12.0.1
   sentry_dart_plugin: ^3.1.0
   sentry_dio: ^9.3.0
   sentry_flutter: ^9.3.0
-  slang: ^4.4.0 
+  slang: ^4.4.0
   slang_flutter: ^4.4.0
   statsfl: 2.3.0
   url_launcher: ^6.3.1

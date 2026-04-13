@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_boilerplate/utils/constants.dart';
+import 'package:flutter_advanced_boilerplate/utils/extensions/color_extensions.dart';
 import 'package:flutter_advanced_boilerplate/utils/methods/shortcuts.dart';
 
 class MaterialSplashTappable extends StatelessWidget {
@@ -20,12 +21,10 @@ class MaterialSplashTappable extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         borderRadius: BorderRadius.all(
-          Radius.circular(
-            radius ?? $constants.theme.defaultBorderRadius,
-          ),
+          Radius.circular(radius ?? $constants.theme.defaultBorderRadius),
         ),
         overlayColor: WidgetStateProperty.all(
-          getCustomOnPrimaryColor(context).withOpacity(0.1),
+          getCustomOnPrimaryColor(context).withOpacityFactor(0.1),
         ),
         onTap: onTap,
         child: child,

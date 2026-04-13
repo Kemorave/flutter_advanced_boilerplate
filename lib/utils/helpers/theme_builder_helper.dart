@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
- 
-class ThemeBuilderOptions {
+import 'package:flutter_advanced_boilerplate/utils/extensions/color_extensions.dart';
 
+class ThemeBuilderOptions {
   const ThemeBuilderOptions({
     this.bigFontSize = 20,
     this.mediumFontSize = 16,
     this.smallFontSize = 14,
-    this.buttonPadding = const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-    this.inputPadding = const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+    this.buttonPadding = const EdgeInsets.symmetric(
+      horizontal: 20,
+      vertical: 14,
+    ),
+    this.inputPadding = const EdgeInsets.symmetric(
+      horizontal: 16,
+      vertical: 12,
+    ),
     this.iconSize = 24,
   });
+
   /// Font sizes
   final double bigFontSize;
   final double mediumFontSize;
@@ -58,16 +65,23 @@ class ThemeBuilderHelper {
         ? languageFonts[locale.languageCode]
         : null;
 
-    final baseTextTheme = (textTheme ??
-            (isDark ? Typography.whiteMountainView : Typography.blackMountainView))
-        .apply(fontFamily: fontFamily)
-        .copyWith(
-          titleLarge: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: options.bigFontSize),
-          titleMedium: TextStyle(
-              fontWeight: FontWeight.w600, fontSize: options.mediumFontSize),
-          bodySmall: TextStyle(fontSize: options.smallFontSize),
-        );
+    final baseTextTheme =
+        (textTheme ??
+                (isDark
+                    ? Typography.whiteMountainView
+                    : Typography.blackMountainView))
+            .apply(fontFamily: fontFamily)
+            .copyWith(
+              titleLarge: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: options.bigFontSize,
+              ),
+              titleMedium: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: options.mediumFontSize,
+              ),
+              bodySmall: TextStyle(fontSize: options.smallFontSize),
+            );
 
     final colorScheme = ColorScheme(
       brightness: brightness,
@@ -89,13 +103,15 @@ class ThemeBuilderHelper {
       hintColor: hintColor ?? Colors.grey,
       colorScheme: colorScheme,
       textTheme: baseTextTheme,
-      appBarTheme: appBarTheme ??
+      appBarTheme:
+          appBarTheme ??
           AppBarTheme(
             backgroundColor: colorScheme.primary,
             foregroundColor: colorScheme.onPrimary,
             titleTextStyle: baseTextTheme.titleLarge,
           ),
-      inputDecorationTheme: inputDecorationTheme ??
+      inputDecorationTheme:
+          inputDecorationTheme ??
           InputDecorationTheme(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
@@ -110,10 +126,11 @@ class ThemeBuilderHelper {
           backgroundColor: buttonColor ?? colorScheme.primary,
           foregroundColor: colorScheme.onPrimary,
           padding: options.buttonPadding,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          textStyle:
-              TextStyle(fontSize: options.mediumFontSize, fontWeight: FontWeight.bold),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          textStyle: TextStyle(
+            fontSize: options.mediumFontSize,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
       textButtonTheme: TextButtonThemeData(
@@ -123,40 +140,49 @@ class ThemeBuilderHelper {
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
-        style: OutlinedButton.styleFrom(    
+        style: OutlinedButton.styleFrom(
           foregroundColor: colorScheme.onPrimaryContainer,
         ),
       ),
-      floatingActionButtonTheme: fabTheme ??
+      floatingActionButtonTheme:
+          fabTheme ??
           FloatingActionButtonThemeData(
             backgroundColor: colorScheme.secondary,
             foregroundColor: colorScheme.onSecondary,
           ),
-      iconTheme: iconTheme ?? IconThemeData(color: colorScheme.onSurface, size: options.iconSize),
-      bottomNavigationBarTheme: bottomNavTheme ??
+      iconTheme:
+          iconTheme ??
+          IconThemeData(color: colorScheme.onSurface, size: options.iconSize),
+      bottomNavigationBarTheme:
+          bottomNavTheme ??
           BottomNavigationBarThemeData(
             backgroundColor: colorScheme.surface,
             selectedItemColor: colorScheme.primary,
-            unselectedItemColor: colorScheme.onSurface.withOpacity(0.6),
+            unselectedItemColor: colorScheme.onSurface.withOpacityFactor(0.6),
           ),
-      checkboxTheme: checkboxTheme ??
+      checkboxTheme:
+          checkboxTheme ??
           CheckboxThemeData(
             fillColor: WidgetStateProperty.all(colorScheme.primary),
           ),
-      radioTheme: radioTheme ??
+      radioTheme:
+          radioTheme ??
           RadioThemeData(
             fillColor: WidgetStateProperty.all(colorScheme.primary),
           ),
-      switchTheme: switchTheme ??
+      switchTheme:
+          switchTheme ??
           SwitchThemeData(
             thumbColor: WidgetStateProperty.all(colorScheme.primary),
-            trackColor:
-                WidgetStateProperty.all(colorScheme.primary.withOpacity(0.5)),
+            trackColor: WidgetStateProperty.all(
+              colorScheme.primary.withOpacityFactor(0.5),
+            ),
           ),
-      sliderTheme: sliderTheme ??
+      sliderTheme:
+          sliderTheme ??
           SliderThemeData(
             activeTrackColor: colorScheme.primary,
-            inactiveTrackColor: colorScheme.primary.withOpacity(0.3),
+            inactiveTrackColor: colorScheme.primary.withOpacityFactor(0.3),
             thumbColor: colorScheme.primary,
           ),
     );
@@ -201,9 +227,6 @@ class ThemeBuilderHelper {
     return theme.textTheme.bodySmall?.copyWith(
           color: color ?? theme.colorScheme.onSurface,
         ) ??
-        TextStyle(
-          fontSize: 14,
-          color: color ?? theme.colorScheme.onSurface,
-        );
+        TextStyle(fontSize: 14, color: color ?? theme.colorScheme.onSurface);
   }
 }
