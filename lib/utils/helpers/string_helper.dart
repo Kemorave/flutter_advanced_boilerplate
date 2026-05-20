@@ -7,8 +7,8 @@ class StringHelper{
   static String? takeUpToWord(String? text, int length) {
     if (text == null) return null;
     if (text.length <= length) return text;
-    final lastSpace = text.lastIndexOf(' ', length);
-    if (lastSpace == -1) return '${text.substring(0, length)}...';
-    return '${text.substring(0, lastSpace)}...';
+
+    final words = text.split(' ');
+    return '${words.take(length).join(' ')}...';
   }
 }
